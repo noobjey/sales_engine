@@ -1,5 +1,5 @@
 class Merchant
   def name
-    "joe"
+    "Schroeder-Jerde"
   end
 end
