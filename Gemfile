@@ -7,5 +7,5 @@ gem 'minitest'
 
 gem 'guard'
 gem 'guard-rake'
-
+gem 'simplecov'
 
