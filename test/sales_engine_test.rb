@@ -10,4 +10,12 @@ class SalesEngineTest < Minitest::Test
 
     assert engine.merchant_repository.is_a?(MerchantRepository), "is a: #{engine.merchant_repository.class}"
   end
+  def test_acceptance_merchant
+    # skip
+    engine = SalesEngine.new
+
+    engine.startup
+
+    assert_equal 'joe', engine.merchant_repository.merchants.first.name
+  end
 end

@@ -10,3 +10,4 @@ class SalesEngine
     MerchantRepository.new
   end
 end
+
