@@ -6,3 +6,7 @@ Style/StringLiterals:
   SupportedStyles:
   - single_quotes
   - double_quotes
+
+Style/ExtraSpacing:
+  Description: Do not use unnecessary spacing.
+  Enabled: false
