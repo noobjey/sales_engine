@@ -9,14 +9,14 @@ class SalesEngineTest < Minitest::Test
 
     engine.startup
 
-    assert engine.merchant_repository.is_a?(MerchantRepository), "is a: #{engine.merchant_repository.class}"
+    assert engine.merchant_repository.is_a?(MerchantRepository)
   end
 
   def test_it_has_a_merchant_parser
     data_location = "./data/fixtures/merchants.csv"
     engine        = SalesEngine.new(data_location)
 
-    assert engine.merchant_parser.is_a?(MerchantParser), "is a: #{engine.merchant_parser.class}"
+    assert engine.merchant_parser.is_a?(MerchantParser)
     assert_equal "./data/fixtures/merchants.csv", engine.merchant_parser.data_location
   end
 
@@ -45,8 +45,6 @@ class SalesEngineTest < Minitest::Test
     assert_equal 4, engine.merchant_repository.merchants.length
     assert_equal 'Willms and Sons', engine.merchant_repository.merchants[2].name
   end
-
-  # SE parses data, then gives parsed_data to repository
 
   def test_acceptance_merchant
     data_location = "./data/fixtures/merchants.csv"
