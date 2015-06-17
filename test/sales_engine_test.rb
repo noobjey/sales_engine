@@ -9,7 +9,15 @@ class SalesEngineTest < Minitest::Test
 
     engine.startup
 
-    assert engine.merchant_repository.is_a?(MerchantRepository), "is a: #{engine.merchant_repository.class}"
+    assert engine.merchant_repository.is_a?(MerchantRepository)
+  end
+
+  def test_it_has_a_merchant_parser
+    data_location = "./data/fixtures/merchants.csv"
+    engine        = SalesEngine.new(data_location)
+
+    assert engine.merchant_parser.is_a?(MerchantParser)
+    assert_equal "./data/fixtures/merchants.csv", engine.merchant_parser.data_location
   end
 
   def test_default_location_for_merchant_data
@@ -26,6 +34,16 @@ class SalesEngineTest < Minitest::Test
     expected = 'different location'
 
     assert_equal expected, engine.merchant_data_location
+  end
+
+  def test_it_passes_parsed_data_to_repository
+    data_location = "./data/fixtures/merchants.csv"
+    engine        = SalesEngine.new(data_location)
+
+    engine.startup
+
+    assert_equal 4, engine.merchant_repository.merchants.length
+    assert_equal 'Willms and Sons', engine.merchant_repository.merchants[2].name
   end
 
   def test_acceptance_merchant
