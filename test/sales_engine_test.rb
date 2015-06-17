@@ -4,7 +4,7 @@ require './lib/sales_engine'
 class SalesEngineTest < Minitest::Test
 
   def test_it_has_a_merchant_repository
-    data_location = "./data/fixtures/merchants.csv"
+    data_location = {merchant: "./data/fixtures/merchants.csv"}
     engine        = SalesEngine.new(data_location)
 
     engine.startup
@@ -13,7 +13,7 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_has_a_merchant_parser
-    data_location = "./data/fixtures/merchants.csv"
+    data_location = {merchant: "./data/fixtures/merchants.csv"}
     engine        = SalesEngine.new(data_location)
 
     assert engine.merchant_parser.is_a?(MerchantParser)
@@ -30,14 +30,14 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_can_override_default_data_location
-    engine   = SalesEngine.new('different location')
+    engine   = SalesEngine.new({merchant: 'different location'})
     expected = 'different location'
 
     assert_equal expected, engine.merchant_data_location
   end
 
-  def test_it_passes_parsed_data_to_repository
-    data_location = "./data/fixtures/merchants.csv"
+  def test_it_passes_parsed_merchant_data_to_merchant_repository
+    data_location = {merchant: "./data/fixtures/merchants.csv"}
     engine        = SalesEngine.new(data_location)
 
     engine.startup
@@ -46,13 +46,58 @@ class SalesEngineTest < Minitest::Test
     assert_equal 'Willms and Sons', engine.merchant_repository.merchants[2].name
   end
 
+  def test_it_has_an_item_repository
+    engine        = SalesEngine.new
+
+    engine.startup
+
+    assert engine.item_repository.is_a?(ItemRepository)
+  end
+
+  def test_it_has_an_item_parser
+    data_location = {item: "./data/fixtures/items.csv"}
+    engine        = SalesEngine.new(data_location)
+
+    assert engine.item_parser.is_a?(ItemParser)
+    assert_equal "./data/fixtures/items.csv", engine.item_parser.data_location
+  end
+
+  def test_it_passes_the_correct_data_location_to_each_parser
+    item_data_location = "./data/fixtures/items.csv"
+    merchant_data_location = "./data/fixtures/merchants.csv"
+    dataset_locations = {merchant: merchant_data_location, item: item_data_location }
+    engine        = SalesEngine.new(dataset_locations)
+
+    assert_equal item_data_location, engine.item_parser.data_location
+    assert_equal merchant_data_location, engine.merchant_parser.data_location
+  end
+
+  def test_it_has_a_default_item_location
+    engine   = SalesEngine.new
+    expected = "./data/items.csv"
+
+    engine.startup
+
+    assert_equal expected, engine.item_data_location
+  end
+
   def test_acceptance_merchant
-    data_location = "./data/fixtures/merchants.csv"
+    data_location = {merchant: "./data/fixtures/merchants.csv"}
     engine        = SalesEngine.new(data_location)
 
     engine.startup
 
     assert_equal 'Schroeder-Jerde', engine.merchant_repository.merchants.first.name
     assert_equal 'Klein, Rempel and Jones', engine.merchant_repository.merchants[1].name
+  end
+
+  def test_acceptance_item
+    data_location = {merchant: "./data/merchants.csv", item: "./data/fixtures/items.csv"}
+    engine        = SalesEngine.new(data_location)
+
+    engine.startup
+
+    assert_equal '75107', engine.item_repository.items.first.unit_price
+    assert_equal 'Item Qui Esse', engine.item_repository.items[1].name
   end
 end
