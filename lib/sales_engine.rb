@@ -5,7 +5,7 @@ class SalesEngine
   attr_reader :merchant_file_name
 
   def initialize
-    @merchant_file_name = "merchant.csv"
+    @merchant_file_name = "./data/merchants.csv"
   end
 
   def startup

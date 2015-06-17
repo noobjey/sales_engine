@@ -11,9 +11,9 @@ class SalesEngineTest < Minitest::Test
     assert engine.merchant_repository.is_a?(MerchantRepository), "is a: #{engine.merchant_repository.class}"
   end
 
-  def test_passes_in_merchant_file
+  def test_default_location_for_merchant_data
     engine = SalesEngine.new
-    expected = 'merchant.csv'
+    expected = './data/merchants.csv'
 
     engine.startup
 
