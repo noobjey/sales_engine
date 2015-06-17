@@ -29,18 +29,4 @@ class MerchantRepositoryTest < Minitest::Test
 
     assert_equal 4, mr.merchants.length
   end
-
-  def test_acceptance
-    skip
-    data_location = "./data/fixtures/merchants.csv"
-    mr = MerchantRepository.new(data_location)
-    # merchant = Merchant.new
-    expected = [merchant]
-
-    result = mr.get_data
-
-    assert_equal expected, result
-  end
-
-
 end
