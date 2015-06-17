@@ -1,11 +1,13 @@
 class Merchant
-  attr_reader :id
+  attr_reader :id,
+              :name,
+              :created_at,
+              :updated_at
 
-  def initialize(id)
+  def initialize(id, name, created_at, updated_at)
     @id = id
-  end
-
-  def name
-    "Schroeder-Jerde"
+    @name = name
+    @created_at = created_at
+    @updated_at = updated_at
   end
 end

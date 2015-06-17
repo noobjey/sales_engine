@@ -45,17 +45,14 @@ class MerchantParserTest < Minitest::Test
   end
 
   def test_the_parser_outputs_a_restructured_collection_of_merchants
-    skip
     data_location = "./data/fixtures/merchants.csv"
     mp = MerchantParser.new(data_location)
 
     result = mp.parse
-    # id
-    # name
-    # created at
-    # updated at
+
+    assert_equal "3", result[2].id
     assert_equal 'Willms and Sons', result[2].name
-    assert_equal 3, result[2].id
-  #   add dates in object
+    assert_equal "2012-03-27 14:53:59 UTC", result[0].created_at
+    assert_equal "2012-03-27 14:53:59 UTC", result[0].updated_at
   end
 end
