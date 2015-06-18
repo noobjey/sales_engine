@@ -124,7 +124,7 @@ class SalesEngineTest < Minitest::Test
     engine.startup
 
     assert_equal 11, engine.customer_repository.customers.length
-    assert_equal 'Heber', engine.customer_repository.customers[5].last_name
+    assert_equal 'Kuhn', engine.customer_repository.customers[5].last_name
   end
 
   def test_acceptance_merchant
