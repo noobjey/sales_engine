@@ -44,7 +44,7 @@ class ItemParserTest < Minitest::Test
     assert_equal 10, output.length
   end
 
-  def test_the_parser_outputs_a_restructured_collection_of_merchants
+  def test_the_parser_outputs_a_restructured_collection_of_items
     data_location = "./data/fixtures/items.csv"
     ip = ItemParser.new(data_location)
 
