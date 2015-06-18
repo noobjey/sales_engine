@@ -4,7 +4,7 @@ require './lib/sales_engine'
 class SalesEngineTest < Minitest::Test
 
   def test_it_has_a_merchant_repository
-    data_location = {merchant: "./data/fixtures/merchants.csv"}
+    data_location = {merchant: "./data/fixtures/merchants.csv", item: "./data/fixtures/items.csv"}
     engine        = SalesEngine.new(data_location)
 
     engine.startup
@@ -37,7 +37,7 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_passes_parsed_merchant_data_to_merchant_repository
-    data_location = {merchant: "./data/fixtures/merchants.csv"}
+    data_location = {merchant: "./data/fixtures/merchants.csv", item: "./data/fixtures/items.csv"}
     engine        = SalesEngine.new(data_location)
 
     engine.startup
@@ -81,8 +81,19 @@ class SalesEngineTest < Minitest::Test
     assert_equal expected, engine.item_data_location
   end
 
+  def test_it_passes_parsed_item_data_to_item_repository
+    data_location = {merchant: "./data/fixtures/merchants.csv", item: "./data/fixtures/items.csv"}
+    engine        = SalesEngine.new(data_location)
+
+    engine.startup
+
+    assert_equal 10, engine.item_repository.items.length
+    assert_equal '31163', engine.item_repository.items[6].unit_price
+  end
+
   def test_acceptance_merchant
-    data_location = {merchant: "./data/fixtures/merchants.csv"}
+    # skip
+    data_location = {merchant: "./data/fixtures/merchants.csv", item: "./data/fixtures/items.csv"}
     engine        = SalesEngine.new(data_location)
 
     engine.startup
@@ -92,12 +103,13 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_acceptance_item
+    # skip
     data_location = {merchant: "./data/merchants.csv", item: "./data/fixtures/items.csv"}
     engine        = SalesEngine.new(data_location)
 
     engine.startup
 
     assert_equal '75107', engine.item_repository.items.first.unit_price
-    assert_equal 'Item Qui Esse', engine.item_repository.items[1].name
+    assert_equal 'Item Autem Minima', engine.item_repository.items[1].name
   end
 end

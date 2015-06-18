@@ -18,7 +18,6 @@ class SalesEngine
               :item_parser
 
   def initialize(dataset_locations = DEFUALT_DATA_LOCATIONS)
-    @dataset_locations = dataset_locations
     @merchant_data_location = dataset_locations[:merchant]
     @merchant_parser = MerchantParser.new(merchant_data_location)
     @item_data_location = dataset_locations[:item]
@@ -27,7 +26,7 @@ class SalesEngine
 
   def startup
     @merchant_repository = MerchantRepository.new(merchant_parser.parse)
-    @item_repository = ItemRepository.new
+    @item_repository = ItemRepository.new(item_parser.parse)
   end
 
 end
