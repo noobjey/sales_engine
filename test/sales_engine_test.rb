@@ -4,7 +4,7 @@ require './lib/sales_engine'
 class SalesEngineTest < Minitest::Test
 
   def test_it_has_a_merchant_repository
-    data_location = {merchant: "./data/fixtures/merchants.csv", item: "./data/fixtures/items.csv", customer: "./data/fixtures/customers.csv"}
+    data_location = { merchant: "./data/fixtures/merchants.csv", item: "./data/fixtures/items.csv", customer: "./data/fixtures/customers.csv", transaction: "./data/fixtures/transactions.csv" }
     engine        = SalesEngine.new(data_location)
 
     engine.startup
@@ -13,7 +13,7 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_has_a_merchant_parser
-    data_location = {merchant: "./data/fixtures/merchants.csv"}
+    data_location = { merchant: "./data/fixtures/merchants.csv" }
     engine        = SalesEngine.new(data_location)
 
     assert engine.merchant_parser.is_a?(MerchantParser)
@@ -30,14 +30,14 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_can_override_default_data_location
-    engine   = SalesEngine.new({merchant: 'different location'})
+    engine   = SalesEngine.new({ merchant: 'different location' })
     expected = 'different location'
 
     assert_equal expected, engine.merchant_data_location
   end
 
   def test_it_passes_parsed_merchant_data_to_merchant_repository
-    data_location = {merchant: "./data/fixtures/merchants.csv", item: "./data/fixtures/items.csv", customer: "./data/fixtures/customers.csv"}
+    data_location = { merchant: "./data/fixtures/merchants.csv", item: "./data/fixtures/items.csv", customer: "./data/fixtures/customers.csv", transaction: "./data/fixtures/transactions.csv" }
     engine        = SalesEngine.new(data_location)
 
     engine.startup
@@ -47,7 +47,7 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_has_an_item_repository
-    engine        = SalesEngine.new
+    engine = SalesEngine.new
 
     engine.startup
 
@@ -55,7 +55,7 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_has_an_item_parser
-    data_location = {item: "./data/fixtures/items.csv"}
+    data_location = { item: "./data/fixtures/items.csv" }
     engine        = SalesEngine.new(data_location)
 
     assert engine.item_parser.is_a?(ItemParser)
@@ -63,8 +63,8 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_passes_the_correct_data_location_to_each_parser
-    dataset_locations = {merchant: "./data/fixtures/merchants.csv", item: "./data/fixtures/items.csv", customer: "./data/fixtures/customers.csv"}
-    engine        = SalesEngine.new(dataset_locations)
+    dataset_locations = { merchant: "./data/fixtures/merchants.csv", item: "./data/fixtures/items.csv", customer: "./data/fixtures/customers.csv", transaction: "./data/fixtures/transactions.csv" }
+    engine            = SalesEngine.new(dataset_locations)
 
     assert_equal "./data/fixtures/items.csv", engine.item_parser.data_location
     assert_equal "./data/fixtures/merchants.csv", engine.merchant_parser.data_location
@@ -81,7 +81,7 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_passes_parsed_item_data_to_item_repository
-    data_location = {merchant: "./data/fixtures/merchants.csv", item: "./data/fixtures/items.csv", customer: "./data/fixtures/customers.csv"}
+    data_location = { merchant: "./data/fixtures/merchants.csv", item: "./data/fixtures/items.csv", customer: "./data/fixtures/customers.csv", transaction: "./data/fixtures/transactions.csv" }
     engine        = SalesEngine.new(data_location)
 
     engine.startup
@@ -92,7 +92,7 @@ class SalesEngineTest < Minitest::Test
 
   def test_it_has_a_customer_repository
     # skip
-    data_location = {merchant: "./data/fixtures/merchants.csv", item: "./data/fixtures/items.csv", customer: "./data/fixtures/customers.csv"}
+    data_location = { merchant: "./data/fixtures/merchants.csv", item: "./data/fixtures/items.csv", customer: "./data/fixtures/customers.csv", transaction: "./data/fixtures/transactions.csv" }
     engine        = SalesEngine.new(data_location)
 
     engine.startup
@@ -101,7 +101,7 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_has_a_customer_parser
-    data_location = {customer: "./data/fixtures/customers.csv"}
+    data_location = { customer: "./data/fixtures/customers.csv" }
     engine        = SalesEngine.new(data_location)
 
     assert engine.customer_parser.is_a?(CustomerParser)
@@ -118,7 +118,7 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_passes_parsed_customer_data_to_customer_repository
-    data_location = {merchant: "./data/fixtures/merchants.csv", item: "./data/fixtures/items.csv", customer: "./data/fixtures/customers.csv"}
+    data_location = { merchant: "./data/fixtures/merchants.csv", item: "./data/fixtures/items.csv", customer: "./data/fixtures/customers.csv", transaction: "./data/fixtures/transactions.csv" }
     engine        = SalesEngine.new(data_location)
 
     engine.startup
@@ -127,9 +127,48 @@ class SalesEngineTest < Minitest::Test
     assert_equal 'Kuhn', engine.customer_repository.customers[5].last_name
   end
 
+  def test_it_has_a_transaction_repository
+    # skip
+    data_location = { merchant: "./data/fixtures/merchants.csv", item: "./data/fixtures/items.csv", customer: "./data/fixtures/customers.csv", transaction: "./data/fixtures/transactions.csv" }
+    engine        = SalesEngine.new(data_location)
+
+    engine.startup
+
+    assert engine.transaction_repository.is_a?(TransactionRepository)
+  end
+
+  def test_it_has_a_transaction_parser
+    # skip
+    data_location = { transaction: "./data/fixtures/transactions.csv" }
+    engine        = SalesEngine.new(data_location)
+
+    assert engine.transaction_parser.is_a?(TransactionParser)
+    assert_equal "./data/fixtures/transactions.csv", engine.transaction_parser.data_location
+  end
+
+  def test_default_location_for_transaction_data
+    engine   = SalesEngine.new
+    expected = "./data/transactions.csv"
+
+    engine.startup
+
+    assert_equal expected, engine.transaction_data_location
+  end
+
+  def test_it_passes_parsed_transaction_data_to_transaction_repository
+    data_location = { merchant: "./data/fixtures/merchants.csv", item: "./data/fixtures/items.csv", customer: "./data/fixtures/customers.csv", transaction: "./data/fixtures/transactions.csv" }
+    engine        = SalesEngine.new(data_location)
+
+    engine.startup
+
+    assert_equal 10, engine.transaction_repository.transactions.length
+    assert_equal '4654405418249632', engine.transaction_repository.transactions.first.credit_card_number
+  end
+
+
   def test_acceptance_merchant
     # skip
-    data_location = {merchant: "./data/fixtures/merchants.csv", item: "./data/fixtures/items.csv", customer: "./data/fixtures/customers.csv"}
+    data_location = { merchant: "./data/fixtures/merchants.csv", item: "./data/fixtures/items.csv", customer: "./data/fixtures/customers.csv", transaction: "./data/fixtures/transactions.csv" }
     engine        = SalesEngine.new(data_location)
 
     engine.startup
@@ -140,7 +179,7 @@ class SalesEngineTest < Minitest::Test
 
   def test_acceptance_item
     # skip
-    data_location = {merchant: "./data/fixtures/merchants.csv", item: "./data/fixtures/items.csv", customer: "./data/fixtures/customers.csv"}
+    data_location = { merchant: "./data/fixtures/merchants.csv", item: "./data/fixtures/items.csv", customer: "./data/fixtures/customers.csv", transaction: "./data/fixtures/transactions.csv" }
     engine        = SalesEngine.new(data_location)
 
     engine.startup
@@ -151,12 +190,23 @@ class SalesEngineTest < Minitest::Test
 
   def test_acceptance_customer
     # skip
-    data_location = {merchant: "./data/fixtures/merchants.csv", item: "./data/fixtures/items.csv", customer: "./data/fixtures/customers.csv"}
+    data_location = { merchant: "./data/fixtures/merchants.csv", item: "./data/fixtures/items.csv", customer: "./data/fixtures/customers.csv", transaction: "./data/fixtures/transactions.csv" }
     engine        = SalesEngine.new(data_location)
 
     engine.startup
 
     assert_equal 'Ondricka', engine.customer_repository.customers.first.last_name
     assert_equal 'Parker', engine.customer_repository.customers[6].first_name
+  end
+
+  def test_acceptance_transactions
+    # skip
+    data_location = { merchant: "./data/fixtures/merchants.csv", item: "./data/fixtures/items.csv", customer: "./data/fixtures/customers.csv", transaction: "./data/fixtures/transactions.csv" }
+    engine        = SalesEngine.new(data_location)
+
+    engine.startup
+
+    assert_equal '1', engine.transaction_repository.transactions.first.id
+    assert_equal '4801647818676136', engine.transaction_repository.transactions[6].credit_card_number
   end
 end
