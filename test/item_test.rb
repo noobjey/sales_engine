@@ -18,30 +18,45 @@ class ItemTest < Minitest::Test
   end
 
   def test_it_has_an_id
-    assert_equal data[:id], Item.new(data).id
+    assert_equal data[:id], Item.new(data, nil).id
   end
 
   def test_it_has_a_name
-    assert_equal data[:name], Item.new(data).name
+    assert_equal data[:name], Item.new(data, nil).name
   end
 
   def test_it_has_a_description
-    assert_equal data[:description], Item.new(data).description
+    assert_equal data[:description], Item.new(data, nil).description
   end
 
   def test_it_has_a_unit_price
-    assert_equal data[:unit_price], Item.new(data).unit_price
+    assert_equal data[:unit_price], Item.new(data, nil).unit_price
   end
 
   def test_it_has_a_merchant_id
-    assert_equal data[:merchant_id], Item.new(data).merchant_id
+    assert_equal data[:merchant_id], Item.new(data, nil).merchant_id
   end
 
   def test_it_has_a_created_at_date
-    assert_equal data[:created_at], Item.new(data).created_at
+    assert_equal data[:created_at], Item.new(data, nil).created_at
   end
 
   def test_it_has_a_updated_at_date
-    assert_equal data[:updated_at], Item.new(data).updated_at
+    assert_equal data[:updated_at], Item.new(data, nil).updated_at
+  end
+
+  def test_it_belongs_to_a_repository
+    repository = 'fake repository'
+    assert_equal repository, Item.new(data, repository).repository
+  end
+
+  def test_it_has_a_merchant
+    repo = Minitest::Mock.new
+    repo.expect(:find_merchant_by_id, nil, [1])
+    item = Item.new(data, repo)
+
+    item.merchant(item.id)
+
+    repo.verify
   end
 end
