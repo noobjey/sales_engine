@@ -1,54 +1,39 @@
-require 'csv'
+# require 'csv'
 require_relative 'merchant_repository'
-require_relative 'merchant_parser'
-require_relative 'item_repository'
-require_relative 'item_parser'
-require_relative 'customer_repository'
-require_relative 'customer_parser'
-require_relative 'transaction_repository'
-require_relative 'transaction_parser'
+# # require_relative 'item_repository'
+# # require_relative 'customer_repository'
+# # require_relative 'transaction_repository'
 
 class SalesEngine
-  DEFUALT_DATA_LOCATIONS = {
-    merchant:    "./data/merchants.csv",
-    item:        "./data/items.csv",
-    customer:    "./data/customers.csv",
-    transaction: "./data/transactions.csv"
-  }
+  attr_accessor :merchant_repository#,
+#               # :customer_repository,
+#               # :invoice_repository,
+#               # :invoice_item_repository,
+#               # :item_repository,
+#               # :transaction_repository,
 
-  attr_reader :merchant_data_location,
-              :merchant_repository,
-              :merchant_parser,
-              :item_data_location,
-              :item_repository,
-              :item_parser,
-              :customer_data_location,
-              :customer_repository,
-              :customer_parser,
-              :transaction_data_location,
-              :transaction_repository,
-              :transaction_parser
+  attr_reader   :filepath
 
-  def initialize(dataset_locations = DEFUALT_DATA_LOCATIONS)
-    @merchant_data_location = dataset_locations[:merchant]
-    @merchant_parser        = MerchantParser.new(merchant_data_location)
-
-    @item_data_location = dataset_locations[:item]
-    @item_parser        = ItemParser.new(item_data_location)
-
-    @customer_data_location = dataset_locations[:customer]
-    @customer_parser        = CustomerParser.new(@customer_data_location)
-
-    @transaction_data_location = dataset_locations[:transaction]
-    @transaction_parser        = TransactionParser.new(@transaction_data_location)
+  def initialize(filepath)
+    @filepath = filepath
   end
 
   def startup
-    @merchant_repository    = MerchantRepository.new(merchant_parser.parse)
-    @item_repository        = ItemRepository.new(item_parser.parse)
-    @customer_repository    = CustomerRepository.new(customer_parser.parse)
-    @transaction_repository = TransactionRepository.new(transaction_parser.parse)
+    @merchant_repository ||= MerchantRepository.new(self)
+    @merchant_repository.load_data("#{filepath}/merchants.csv")
+#     # @customer_repository ||= CustomerRepository.new(self)
+#     # @customer_repository.load_data("#{@filepath}/customers.csv")
+#     # @transaction_repository ||= TransactionRepository.new(self)
+#     # @transaction_repository.load_data("#{@filepath}/transactions.csv")
+#     # @item_repository ||= ItemRepository.new(self)
+#     # @item_repository.load_data("#{@filepath}/items.csv")
+#     # @invoice_repository ||= InvoiceRepository.new(self)
+#     # @invoice_repository.load_data("#{@filepath}/invoices.csv")
+#     # @invoice_item_repository ||= InvoiceItemRepository.new(self)
+#     # @invoice_item_repository.load_data("#{@filepath}/invoice_items.csv")
   end
 
+#   def find_items_by_merchant_id(id)
+#     item_repository.find_all_by_merchant_id(id)
+#   end
 end
-
