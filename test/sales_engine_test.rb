@@ -22,7 +22,7 @@ class SalesEngineTest < Minitest::Test
 
   def test_it_loads_the_merchant_data
     engine = SalesEngine.new("../data")
-    repo = Minitest::Mock.new
+    repo   = Minitest::Mock.new
 
     engine.merchant_repository = repo
     repo.expect(:load_data, nil, ['../data/merchants.csv'])
@@ -39,7 +39,7 @@ class SalesEngineTest < Minitest::Test
 
   def test_it_finds_items_by_merchant_id
     engine = SalesEngine.new("../data")
-    repo = Minitest::Mock.new
+    repo   = Minitest::Mock.new
 
     engine.item_repository = repo
     repo.expect(:find_all_by_merchant_id, nil, [1])
@@ -66,7 +66,7 @@ class SalesEngineTest < Minitest::Test
 
   def test_it_loads_the_items_data
     engine = SalesEngine.new("./data/fixtures")
-    repo = Minitest::Mock.new
+    repo   = Minitest::Mock.new
 
     engine.item_repository = repo
     repo.expect(:load_data, nil, ['./data/fixtures/items.csv'])

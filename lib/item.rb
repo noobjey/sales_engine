@@ -8,7 +8,7 @@ class Item
               :updated_at
 
   def initialize(line)
-    @id = line[:id]  .to_i
+    @id          = line[:id].to_i
     @name        = line[:name]
     @description = line[:description]
     @unit_price  = line[:unit_price]

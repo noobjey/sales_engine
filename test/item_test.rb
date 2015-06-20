@@ -19,7 +19,7 @@ class ItemTest < Minitest::Test
 
   def test_it_has_an_id
     assert_equal data[:id], Item.new(data).id
-    end
+  end
 
   def test_it_has_a_name
     assert_equal data[:name], Item.new(data).name

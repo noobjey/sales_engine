@@ -9,11 +9,11 @@ class ItemRepository
 
   def initialize(sales_engine)
     @sales_engine = sales_engine
-    @items = []
+    @items        = []
   end
 
   def load_data(path)
-    file = load_file(path)
+    file   = load_file(path)
     @items = file.map do |line|
       Item.new(line)
     end

@@ -21,9 +21,9 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def test_it_loads_the_data
-    path = './data/fixtures/items.csv'
+    path         = './data/fixtures/items.csv'
     sales_engine = "fake_sales_engine"
-    repo = ItemRepository.new(sales_engine)
+    repo         = ItemRepository.new(sales_engine)
 
     repo.load_data(path)
 

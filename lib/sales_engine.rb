@@ -5,13 +5,13 @@ require_relative 'merchant_repository'
 
 class SalesEngine
   attr_accessor :merchant_repository,
-                :item_repository#,
+                :item_repository #,
 #               # :customer_repository,
 #               # :invoice_repository,
 #               # :invoice_item_repository,
 #               # :transaction_repository,
 
-  attr_reader   :filepath
+  attr_reader :filepath
 
   def initialize(filepath)
     @filepath = filepath
