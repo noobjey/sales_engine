@@ -1,3 +1,5 @@
+require_relative 'merchant'
+
 class Item
   attr_reader :id,
               :name,
@@ -7,7 +9,9 @@ class Item
               :created_at,
               :updated_at
 
-  def initialize(line)
+  attr_accessor :repository
+
+  def initialize(line, repository)
     @id          = line[:id].to_i
     @name        = line[:name]
     @description = line[:description]
@@ -15,5 +19,10 @@ class Item
     @merchant_id = line[:merchant_id]
     @created_at  = line[:created_at]
     @updated_at  = line[:updated_at]
+    @repository  = repository
+  end
+
+  def merchant(id)
+    repository.find_merchant_by_id(id)
   end
 end

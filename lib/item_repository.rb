@@ -15,8 +15,11 @@ class ItemRepository
   def load_data(path)
     file   = load_file(path)
     @items = file.map do |line|
-      Item.new(line)
+      Item.new(line, self)
     end
   end
 
+  def find_merchant_by_id(id)
+    sales_engine.find_merchant_by_id(1)
+  end
 end
