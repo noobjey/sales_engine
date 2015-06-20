@@ -1,10 +1,14 @@
-require_relative 'item'
+# require_relative 'item'
 
 class ItemRepository
-  attr_reader :items
+  attr_reader :sales_engine
 
-  def initialize(items)
-    @items = items
+  def initialize(sales_engine)
+    @sales_engine = sales_engine
+  end
+
+  def load_data(path)
+
   end
 
 end
