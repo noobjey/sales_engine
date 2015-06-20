@@ -28,4 +28,14 @@ class MerchantRepositoryTest < Minitest::Test
     assert_equal 4, repo.merchants.size
     assert_equal "Schroeder-Jerde", repo.merchants.first.name
   end
+
+  def test_it_finds_items_by_merchant_id
+    sales_engine = Minitest::Mock.new
+    repo = MerchantRepository.new(sales_engine)
+
+    sales_engine.expect(:find_items_by_merchant_id, nil, [1])
+    repo.find_items(1)
+
+    sales_engine.verify
+  end
 end
