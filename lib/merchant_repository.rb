@@ -1,19 +1,21 @@
-class MerchantRepository
-  attr_reader :sales_engine #:merchants
+require_relative 'load_file'
+require_relative 'merchant'
 
-#   include LoadFile
+class MerchantRepository
+  attr_reader :sales_engine, :merchants
+  include LoadFile
 
   def initialize(sales_engine)
-#     @merchants = []
+    @merchants = []
     @sales_engine = sales_engine
   end
 
   def load_data(path)
-#     file = load_file(path)
-#     @merchants = file.map do |line|
-#       Merchant.new(line, self)
-#     end
-#     file.close
+    file = load_file(path)
+    @merchants = file.map do |line|
+      Merchant.new(line, self)
+    end
+    file.close
   end
 
 #   def find_items(id)
