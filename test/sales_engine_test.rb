@@ -84,10 +84,18 @@ class SalesEngineTest < Minitest::Test
     repo   = Minitest::Mock.new
 
     engine.merchant_repository = repo
-    repo.expect(:find_merchant_by_id, nil, [1])
+    repo.expect(:find_merchant, nil, [1])
     engine.find_merchant_by_id(1)
  
     repo.verify
+  end
+
+  def test_smoke
+    engine = SalesEngine.new("./data/fixtures")
+
+    engine.startup
+
+    assert_equal 'Schroeder-Jerde', engine.find_merchant_by_id(1).name
   end
 
 end

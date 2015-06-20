@@ -17,7 +17,7 @@ class MerchantRepositoryTest < Minitest::Test
     merchant2 = FakeMerchant.new(2)
     merchant3 = FakeMerchant.new(3)
 
-    @merchants = [merchant1, merchant2, merchant3]
+    @merchants = [merchant2, merchant1, merchant3]
 
   end
 

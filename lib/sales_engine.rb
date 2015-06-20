@@ -37,6 +37,6 @@ class SalesEngine
   end
 
   def find_merchant_by_id(id)
-    merchant_repository.find_merchant_by_id(id)
+    merchant_repository.find_merchant(id)
   end
 end
