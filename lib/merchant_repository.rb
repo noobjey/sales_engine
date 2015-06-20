@@ -3,6 +3,7 @@ require_relative 'merchant'
 
 class MerchantRepository
   attr_reader :sales_engine, :merchants
+
   include LoadFile
 
   def initialize(sales_engine)

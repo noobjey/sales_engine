@@ -4,7 +4,7 @@ require_relative "../lib/merchant_repository"
 
 class SalesEngineTest < Minitest::Test
   def test_it_creates_a_repository
-    engine = SalesEngine.new("fake_data_path")
+    engine = SalesEngine.new("./data/fixtures")
 
     engine.startup
 
@@ -12,7 +12,7 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_passes_itself_to_repository
-    engine = SalesEngine.new("fake_data_path")
+    engine = SalesEngine.new("./data/fixtures")
 
     engine.startup
 
@@ -21,13 +21,13 @@ class SalesEngineTest < Minitest::Test
 
   def test_it_loads_the_data
     engine = SalesEngine.new("../data")
-    fake_merchant_repo = Minitest::Mock.new
+    repo = Minitest::Mock.new
 
-    engine.merchant_repository = fake_merchant_repo
-    fake_merchant_repo.expect(:load_data, 'somethinfg', ['../data/merchants.csv'])
+    engine.merchant_repository = repo
+    repo.expect(:load_data, nil, ['../data/merchants.csv'])
     engine.startup
 
-    fake_merchant_repo.verify
+    repo.verify
   end
 
   def test_it_stores_the_path_to_the_data
@@ -36,37 +36,14 @@ class SalesEngineTest < Minitest::Test
     assert_equal "../data", engine.filepath
   end
 
-  # def test_it_passes_itself_to_repository
-  #   engine = SalesEngine.new
-  #   fake_merchant_repo = Minitest::Mock.new
-  #   engine.merchant_repository = fake_merchant_repo
+  def test_it_finds_items_by_merchant_id
+    engine = SalesEngine.new("../data")
+    repo = Minitest::Mock.new
 
-  #   fake_merchant_repo.expect(:initialize, engine)
-  #   engine.startup
+    engine.item_repository = repo
+    repo.expect(:find_all_by_merchant_id, nil, [1])
+    engine.find_items_by_merchant_id(1)
 
-  #   # assert_equal engine, engine.merchant_repository.sales_engine
-  #   fake_merchant_repo.verify
-  # end
-
-  # repo has data
-  # def test_it_creates_a_repository_and_fills_it_with_data
-  # end
+    repo.verify
+  end
 end
-
-  # def test_it_can_talk_to_the_repository_with_items
-  #   parent = Minitest::Mock.new
-  #   merchant = Merchant.new(data, parent)
-  #   parent.expect(:find_items, [1, 2], [1])
-  #   assert_equal [1, 2], merchant.items
-  #   parent.verify
-  # end
-
-  #   @mock.expect(:meaning_of_life, 42)
-  #   @mock.meaning_of_life # => 42
-
-  #   @mock.expect(:do_something_with, true, [some_obj, true])
-  #   @mock.do_something_with(some_obj, true) # => true
-
-  #   @mock.expect(:do_something_else, true) do |a1, a2|
-  #     a1 == "buggs" && a2 == :bunny
-  #   end
