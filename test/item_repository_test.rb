@@ -3,6 +3,25 @@ require_relative '../lib/item_repository'
 
 
 class ItemRepositoryTest < Minitest::Test
+  attr_reader :items
+
+  class FakeItem
+    attr_reader :merchant_id
+
+    def initialize(merchant_id)
+      @merchant_id = merchant_id
+    end
+  end
+
+  def setup
+    item1 = FakeItem.new(1)
+    item2 = FakeItem.new(2)
+    item3 = FakeItem.new(3)
+    item4 = FakeItem.new(1)
+
+    @items = [item2, item1, item3, item4]
+
+  end
 
   def test_it_knows_its_parent
     sales_engine = "fake_sales_engine"
@@ -50,5 +69,14 @@ class ItemRepositoryTest < Minitest::Test
     repo.find_merchant_by_id(id)
 
     sales_engine.verify
+  end
+
+  def test_it_finds_all_by_merchant_id
+    sales_engine = Minitest::Mock.new
+    repo = ItemRepository.new(sales_engine)
+    repo.items = @items
+
+    assert_equal 2, repo.find_all_by_merchant_id(1).length
+    assert_equal 1, repo.find_all_by_merchant_id(1).last.merchant_id
   end
 end

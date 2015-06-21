@@ -79,14 +79,13 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_finds_merchant_by_id
-    # skip
     engine = SalesEngine.new("the path")
     repo   = Minitest::Mock.new
 
     engine.merchant_repository = repo
     repo.expect(:find_merchant, nil, [1])
     engine.find_merchant_by_id(1)
- 
+
     repo.verify
   end
 
@@ -96,6 +95,7 @@ class SalesEngineTest < Minitest::Test
     engine.startup
 
     assert_equal 'Schroeder-Jerde', engine.find_merchant_by_id(1).name
+    assert_equal 10, engine.find_items_by_merchant_id(1).length
+    assert_equal 32301, engine.find_items_by_merchant_id(1)[2].unit_price
   end
-
 end
