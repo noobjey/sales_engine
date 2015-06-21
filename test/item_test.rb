@@ -7,18 +7,18 @@ class ItemTest < Minitest::Test
 
   def setup
     @data = {
-      id:          1,
+      id:          "1",
       name:        "Item Qui Esse",
       description: "Nihil autem sit odio inventore deleniti. Est laudantium ratione distinctio laborum. Minus voluptatem nesciunt assumenda dicta voluptatum porro.",
-      unit_price:  75107,
-      merchant_id: 1,
+      unit_price:  "75107",
+      merchant_id: "1",
       created_at:  "2012-03-27 14:53:59 UTC",
       updated_at:  "2012-03-27 14:53:59 UTC"
     }
   end
 
   def test_it_has_an_id
-    assert_equal data[:id], Item.new(data, nil).id
+    assert_equal data[:id].to_i, Item.new(data, nil).id
   end
 
   def test_it_has_a_name
@@ -30,11 +30,11 @@ class ItemTest < Minitest::Test
   end
 
   def test_it_has_a_unit_price
-    assert_equal data[:unit_price], Item.new(data, nil).unit_price
+    assert_equal data[:unit_price].to_i, Item.new(data, nil).unit_price
   end
 
   def test_it_has_a_merchant_id
-    assert_equal data[:merchant_id], Item.new(data, nil).merchant_id
+    assert_equal data[:merchant_id].to_i, Item.new(data, nil).merchant_id
   end
 
   def test_it_has_a_created_at_date
