@@ -80,11 +80,11 @@ class ItemRepositoryTest < Minitest::Test
     assert_equal 1, repo.find_items_by_merchant_id(1).last.merchant_id
   end
 
-  def test_it_finds_all_invoice_items_by_merchant_id
+  def test_it_finds_all_invoice_items_by_item_id
     sales_engine = Minitest::Mock.new
     repo         = ItemRepository.new(sales_engine)
     id           = 1
-    sales_engine.expect(:find_invoice_items_by_merchant_id, nil, [id])
+    sales_engine.expect(:find_invoice_items_by_item_id, nil, [id])
 
     repo.find_invoice_items_by_id(id)
 
