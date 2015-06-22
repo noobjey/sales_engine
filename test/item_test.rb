@@ -59,4 +59,14 @@ class ItemTest < Minitest::Test
 
     repo.verify
   end
+
+  def test_it_has_invoice_items
+    repo = Minitest::Mock.new
+    repo.expect(:find_invoice_items_by_id, nil, [1])
+    item = Item.new(data, repo)
+
+    item.invoice_items(item.id)
+
+    repo.verify
+  end
 end
