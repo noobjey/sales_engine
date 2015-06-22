@@ -67,12 +67,40 @@ class SalesEngineTest < Minitest::Test
     repo.verify
   end
 
+  def test_it_creates_an_invoice_item_repository
+    engine = SalesEngine.new("./data/fixtures")
+
+    engine.startup
+
+    assert_equal true, engine.invoice_item_repository.is_a?(InvoiceItemRepository)
+  end
+
+  def test_it_passes_itself_to_invoice_items_repository
+    engine = SalesEngine.new("./data/fixtures")
+
+    engine.startup
+
+    assert_equal engine, engine.invoice_item_repository.sales_engine
+  end
+
+  def test_it_loads_the_invoice_items_data
+    path   = "./data/fixtures"
+    engine = SalesEngine.new(path)
+    repo   = Minitest::Mock.new
+
+    engine.invoice_item_repository = repo
+    repo.expect(:load_data, nil, ["#{path}/invoice_items.csv"])
+    engine.startup
+
+    repo.verify
+  end
+
   def test_it_finds_items_by_merchant_id
     engine = SalesEngine.new("the path")
     repo   = Minitest::Mock.new
 
     engine.item_repository = repo
-    repo.expect(:find_all_by_merchant_id, nil, [1])
+    repo.expect(:find_items_by_merchant_id, nil, [1])
     engine.find_items_by_merchant_id(1)
 
     repo.verify
@@ -85,6 +113,17 @@ class SalesEngineTest < Minitest::Test
     engine.merchant_repository = repo
     repo.expect(:find_merchant, nil, [1])
     engine.find_merchant_by_id(1)
+
+    repo.verify
+  end
+
+  def test_it_finds_invoice_items_by_merchant_id
+    engine = SalesEngine.new("the path")
+    repo   = Minitest::Mock.new
+
+    engine.invoice_item_repository = repo
+    repo.expect(:find_by_merchant_id, nil, [1])
+    engine.find_invoice_items_by_merchant_by_id(1)
 
     repo.verify
   end
