@@ -6,6 +6,7 @@ GEM
       ice_nine (~> 0.11.0)
       memoizable (~> 0.4.0)
     ast (2.0.0)
+    bigdecimal (1.2.7)
     cane (2.6.2)
       parallel
     celluloid (0.16.0)
@@ -34,7 +35,7 @@ GEM
     hitimes (1.2.2)
     ice_nine (0.11.1)
     json (1.8.3)
-    listen (2.10.0)
+    listen (2.10.1)
       celluloid (~> 0.16.0)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
@@ -88,6 +89,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bigdecimal
   cane
   guard
   guard-rake
