@@ -5,25 +5,26 @@ require_relative '../lib/item_repository'
 class ItemRepositoryTest < Minitest::Test
   attr_reader :items,
               :fake_sales_engine,
-              :fixture_path
+              :fixture_path,
+              :item_input
 
   def setup
     @fake_sales_engine = "fake sales engine"
     @fixture_path      = './data/fixtures/items.csv'
-    item_hash          = {
-      id:          "1",
-      name:        'name',
-      description: 'description',
-      unit_price:  "101",
-      merchant_id: '1',
+    @item_input        = {
+      id:          1,
+      name:        'NaMe',
+      description: 'deScriPtiOn',
+      unit_price:  BigDecimal.new(101),
+      merchant_id: 1,
       created_at:  '2012-03-27 14:53:59 UTC',
       updated_at:  '2012-03-27 14:53:59 UTC'
     }
 
-    item1              = Item.new(item_hash, self)
-    item2              = Item.new(item_hash, self)
-    item3              = Item.new(item_hash, self)
-    item4              = Item.new(item_hash, self)
+    item1 = Item.new(item_input, nil)
+    item2 = Item.new(item_input, nil)
+    item3 = Item.new(item_input, nil)
+    item4 = Item.new(item_input, nil)
 
     @items = [item2, item1, item3, item4]
 
@@ -59,12 +60,112 @@ class ItemRepositoryTest < Minitest::Test
     assert_equal repo, repo.items.first.repository
   end
 
+  def test_find_all_by_id
+    repo       = ItemRepository.new(fake_sales_engine)
+    repo.items = items
 
-  # id,name,description,unit_price,merchant_id,created_at,updated_at
-  # all returns all instances
-  # random returns a random instance
-  # find_by_X(match), where X is some attribute, returns a single instance whose X attribute case-insensitive attribute matches the match parameter. For instance, customer_repository.find_by_first_name("Mary") could find a Customer with the first name attribute "Mary" or "mary" but not "Mary Ellen".
-  #   find_all_by_X(match) works just like find_by_X except it returns a collection of all matches. If there is no match, it returns an empty Array.
+    assert_equal 4, repo.find_all_by_id(item_input[:id]).size
+    assert_equal item_input[:id], repo.find_all_by_id(item_input[:id]).first.id
+  end
+
+  def test_find_all_by_name
+    repo       = ItemRepository.new(fake_sales_engine)
+    repo.items = items
+
+    assert_equal 4, repo.find_all_by_name(item_input[:name]).size
+    assert_equal item_input[:name], repo.find_all_by_name(item_input[:name]).first.name
+  end
+
+  def test_find_all_by_description
+    repo       = ItemRepository.new(fake_sales_engine)
+    repo.items = items
+
+    assert_equal 4, repo.find_all_by_description(item_input[:description]).size
+    assert_equal item_input[:description], repo.find_all_by_description(item_input[:description]).first.description
+  end
+
+
+  def test_find_all_by_unit_price
+    repo       = ItemRepository.new(fake_sales_engine)
+    repo.items = items
+
+    assert_equal 4, repo.find_all_by_unit_price(item_input[:unit_price]).size
+    assert_equal item_input[:unit_price], repo.find_all_by_unit_price(item_input[:unit_price]).first.unit_price
+  end
+
+  def test_find_all_by_merchant_id
+    repo       = ItemRepository.new(fake_sales_engine)
+    repo.items = items
+
+    assert_equal 4, repo.find_all_by_merchant_id(item_input[:merchant_id]).size
+    assert_equal item_input[:merchant_id], repo.find_all_by_merchant_id(item_input[:merchant_id]).first.merchant_id
+  end
+
+  def test_find_all_by_created_at
+    repo       = ItemRepository.new(fake_sales_engine)
+    repo.items = items
+
+    assert_equal 4, repo.find_all_by_created_at(item_input[:created_at]).size
+    assert_equal item_input[:created_at], repo.find_all_by_created_at(item_input[:created_at]).first.created_at
+  end
+
+  def test_find_all_by_updated_at
+    repo       = ItemRepository.new(fake_sales_engine)
+    repo.items = items
+
+    assert_equal 4, repo.find_all_by_updated_at(item_input[:updated_at]).size
+    assert_equal item_input[:updated_at], repo.find_all_by_updated_at(item_input[:updated_at]).first.created_at
+  end
+
+
+  def test_find_by_id
+    repo       = ItemRepository.new(fake_sales_engine)
+    repo.items = items
+
+    assert_equal item_input[:id], repo.find_by_id(item_input[:id]).id
+  end
+
+  def test_find_by_name
+    repo       = ItemRepository.new(fake_sales_engine)
+    repo.items = items
+
+    assert_equal item_input[:name], repo.find_by_name(item_input[:name]).name
+  end
+
+  def test_find_by_description
+    repo       = ItemRepository.new(fake_sales_engine)
+    repo.items = items
+
+    assert_equal item_input[:description], repo.find_by_description(item_input[:description]).description
+  end
+
+  def test_find_by_unit_price
+    repo       = ItemRepository.new(fake_sales_engine)
+    repo.items = items
+
+    assert_equal item_input[:unit_price], repo.find_by_unit_price(item_input[:unit_price]).unit_price
+  end
+
+  def test_find_by_merchant_id
+    repo       = ItemRepository.new(fake_sales_engine)
+    repo.items = items
+
+    assert_equal item_input[:merchant_id], repo.find_by_merchant_id(item_input[:merchant_id]).merchant_id
+  end
+
+  def test_find_by_created_at
+    repo       = ItemRepository.new(fake_sales_engine)
+    repo.items = items
+
+    assert_equal item_input[:created_at], repo.find_by_created_at(item_input[:created_at]).created_at
+  end
+
+  def test_find_by_updated_at
+    repo       = ItemRepository.new(fake_sales_engine)
+    repo.items = items
+
+    assert_equal item_input[:updated_at], repo.find_by_updated_at(item_input[:updated_at]).updated_at
+  end
 
   # Will only fail once every 5000 runs i think
   # might delete this after asking advice
@@ -85,7 +186,7 @@ class ItemRepositoryTest < Minitest::Test
     assert_equal expected, repo.all
   end
 
-
+  # Upstream lookups
   def test_find_merchant_by_id
     sales_engine = Minitest::Mock.new
     repo         = ItemRepository.new(sales_engine)
@@ -97,12 +198,13 @@ class ItemRepositoryTest < Minitest::Test
     sales_engine.verify
   end
 
+  # Downstream lookups
   def test_it_finds_all_items_by_merchant_id
     repo       = ItemRepository.new(fake_sales_engine)
     repo.items = @items
 
-    assert_equal 4, repo.find_items_by_merchant_id(1).length
-    assert_equal 1, repo.find_items_by_merchant_id(1).last.merchant_id
+    assert_equal 4, repo.find_all_by_merchant_id(1).length
+    assert_equal 1, repo.find_all_by_merchant_id(1).last.merchant_id
   end
 
   def test_it_finds_all_invoice_items_by_item_id
