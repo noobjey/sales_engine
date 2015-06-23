@@ -19,6 +19,14 @@ class ItemRepository
     end
   end
 
+  def all
+    items
+  end
+
+  def random
+    items[Random.new.rand(items.size)]
+  end
+
   #Going down the chain
   def find_items_by_merchant_id(id)
     items.select { |item| item.merchant_id.eql?(id) }
