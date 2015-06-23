@@ -4,4 +4,8 @@ class CustomerRepository
   def initialize(customers)
     @customers = customers
   end
+
+  def inspect
+    "#<#{self.class} #{customers.size} rows>"
+  end
 end

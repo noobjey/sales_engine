@@ -6,4 +6,8 @@ class TransactionRepository
   def initialize(transactions)
     @transactions = transactions
   end
+
+  def inspect
+    "#<#{self.class} #{transactions.size} rows>"
+  end
 end

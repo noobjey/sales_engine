@@ -21,6 +21,10 @@ class MerchantRepository
     file.close
   end
 
+  def inspect
+    "#<#{self.class} #{merchants.size} rows>"
+  end
+
   def find_items(id)
     sales_engine.find_items_by_merchant_id(id)
   end
