@@ -3,19 +3,23 @@ require_relative 'load_file'
 
 class InvoiceRepository
   attr_reader :sales_engine,
-              :items
+              :invoices
 
   include LoadFile
 
   def initialize(sales_engine)
     @sales_engine = sales_engine
-    @items        = []
+    @invoices        = []
   end
 
   def load_data(path)
     file   = load_file(path)
-    @items = file.map do |line|
+    @invoices = file.map do |line|
       Invoice.new(line, self)
     end
+  end
+
+  def inspect
+    "#<#{self.class} #{transactions.size} rows>"
   end
 end
