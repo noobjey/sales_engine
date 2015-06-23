@@ -4,23 +4,26 @@ require_relative '../lib/item_repository'
 
 class ItemRepositoryTest < Minitest::Test
   attr_reader :items,
-              :fake_sales_engine
-
-  class FakeItem
-    attr_reader :merchant_id
-
-    def initialize(merchant_id)
-      @merchant_id = merchant_id
-
-    end
-  end
+              :fake_sales_engine,
+              :fixture_path
 
   def setup
     @fake_sales_engine = "fake sales engine"
-    item1 = FakeItem.new(1)
-    item2 = FakeItem.new(2)
-    item3 = FakeItem.new(3)
-    item4 = FakeItem.new(1)
+    @fixture_path      = './data/fixtures/items.csv'
+    item_hash          = {
+      id:          "1",
+      name:        'name',
+      description: 'description',
+      unit_price:  "101",
+      merchant_id: '1',
+      created_at:  '2012-03-27 14:53:59 UTC',
+      updated_at:  '2012-03-27 14:53:59 UTC'
+    }
+
+    item1              = Item.new(item_hash, self)
+    item2              = Item.new(item_hash, self)
+    item3              = Item.new(item_hash, self)
+    item4              = Item.new(item_hash, self)
 
     @items = [item2, item1, item3, item4]
 
@@ -39,18 +42,17 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def test_it_loads_the_data
-    path         = './data/fixtures/items.csv'
-    repo         = ItemRepository.new(fake_sales_engine)
+    repo = ItemRepository.new(fake_sales_engine)
 
-    repo.load_data(path)
+    repo.load_data(@fixture_path)
 
     assert_equal 10, repo.items.size
     assert_equal 6, repo.items[5].id
   end
 
   def test_it_passes_itself_to_items
-    path         = './data/fixtures/items.csv'
-    repo         = ItemRepository.new(fake_sales_engine)
+    path = @fixture_path
+    repo = ItemRepository.new(fake_sales_engine)
 
     repo.load_data(path)
 
@@ -64,11 +66,11 @@ class ItemRepositoryTest < Minitest::Test
   # find_by_X(match), where X is some attribute, returns a single instance whose X attribute case-insensitive attribute matches the match parameter. For instance, customer_repository.find_by_first_name("Mary") could find a Customer with the first name attribute "Mary" or "mary" but not "Mary Ellen".
   #   find_all_by_X(match) works just like find_by_X except it returns a collection of all matches. If there is no match, it returns an empty Array.
 
-
-
+  # Will only fail once every 5000 runs i think
+  # might delete this after asking advice
   def test_random_returns_a_random_instance
-    repo         = ItemRepository.new(fake_sales_engine)
-    expected = 10000.times.map { |num| num }
+    repo       = ItemRepository.new(fake_sales_engine)
+    expected   = 10000.times.map { |num| num }
     repo.items = expected
 
     refute repo.random.eql?(repo.random)
@@ -76,8 +78,8 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def test_all_returns_all_items_in_repository
-    repo         = ItemRepository.new(fake_sales_engine)
-    expected = ['with alot of items', 'like two']
+    repo       = ItemRepository.new(fake_sales_engine)
+    expected   = ['array with alot of items', 'like two']
     repo.items = expected
 
     assert_equal expected, repo.all
@@ -96,10 +98,10 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def test_it_finds_all_items_by_merchant_id
-    repo         = ItemRepository.new(fake_sales_engine)
-    repo.items   = @items
+    repo       = ItemRepository.new(fake_sales_engine)
+    repo.items = @items
 
-    assert_equal 2, repo.find_items_by_merchant_id(1).length
+    assert_equal 4, repo.find_items_by_merchant_id(1).length
     assert_equal 1, repo.find_items_by_merchant_id(1).last.merchant_id
   end
 
