@@ -3,22 +3,16 @@ class Customer
               :first_name,
               :last_name,
               :created_at,
-              :updated_at
+              :updated_at,
+              :repository
 
-  def initialize(
-    id,
-    first_name,
-    last_name,
-    created_at,
-    updated_at
-  )
-
-    @id         = id
-    @first_name = first_name
-    @last_name  = last_name
-    @created_at = created_at
-    @updated_at = updated_at
-
+  def initialize(line, repository)
+    @id         = line[:id].to_i
+    @first_name = line[:first_name]
+    @last_name  = line[:last_name]
+    @created_at = line[:created_at]
+    @updated_at = line[:updated_at]
+    @repository = repository
   end
 
 end
