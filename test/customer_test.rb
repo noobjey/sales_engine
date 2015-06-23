@@ -43,4 +43,9 @@ class CustomerTest < Minitest::Test
 
     assert "2012-03-27 14:54:09 UTC", customer.updated_at
   end
+
+  def test_it_knows_its_repository
+    repository = 'fake repository'
+    assert_equal repository, Customer.new(data, repository).repository
+  end
 end
