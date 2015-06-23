@@ -20,8 +20,8 @@ class ItemRepository
   end
 
   #Going down the chain
-  def find_merchant_by_id(id)
-    sales_engine.find_merchant_by_id(1)
+  def find_items_by_merchant_id(id)
+    items.select { |item| item.merchant_id.eql?(id) }
   end
 
   # Going up the chain
@@ -29,7 +29,7 @@ class ItemRepository
     sales_engine.find_invoice_items_by_item_id(id)
   end
 
-  def find_items_by_merchant_id(id)
-    items.select { |item| item.merchant_id.eql?(id) }
+  def find_merchant_by_id(id)
+    sales_engine.find_merchant_by_id(1)
   end
 end
