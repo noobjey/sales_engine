@@ -1,7 +1,6 @@
 require_relative 'test_helper'
 require_relative '../lib/item_repository'
 
-
 class ItemRepositoryTest < Minitest::Test
   attr_reader :items,
               :fake_sales_engine,
