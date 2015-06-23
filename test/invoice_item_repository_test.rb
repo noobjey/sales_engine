@@ -2,28 +2,30 @@ require_relative 'test_helper'
 require_relative '../lib/invoice_item_repository'
 
 class InvoiceItemRepositoryTest < Minitest::Test
-  attr_reader :invoice_items
-
-  class FakeInvoiceItem
-    attr_reader :id,
-                :item_id
-
-    def initialize(id, item_id)
-      @id      = id
-      @item_id = item_id
-    end
-  end
+  attr_reader :invoice_items,
+              :fake_sales_engine,
+              :fixture_path,
+              :invoice_item_input
 
   def setup
-    invoice_item1 = FakeInvoiceItem.new(1, 2)
-    invoice_item2 = FakeInvoiceItem.new(2, 1)
-    invoice_item3 = FakeInvoiceItem.new(3, 2)
+    @fake_sales_engine  = "fake sales engine"
+    @fixture_path       = ".data/fixtures/invoice_items.csv"
+    @invoice_item_input = {
+      id: 1,
+      item_id: 539,
+      invoice_id: 1,
+      quantity: 5,
+      unit_price: BigDecimal.new(13635),
+      created_at: "2012-03-27 14:54:09 UTC",
+      updated_at: "2012-03-27 14:54:09 UTC"
+    }
 
-    @invoice_items = [
-      invoice_item1,
-      invoice_item2,
-      invoice_item3
-    ]
+    invoice_item1 = InvoiceItem.new(invoice_item_input, nil)
+    invoice_item2 = InvoiceItem.new(invoice_item_input, nil)
+    invoice_item3 = InvoiceItem.new(invoice_item_input, nil)
+    invoice_item4 = InvoiceItem.new(invoice_item_input, nil)
+
+    @invoice_items = [invoice_item1, invoice_item2, invoice_item3, invoice_item4]
 
   end
 
