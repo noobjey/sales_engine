@@ -88,7 +88,7 @@ class SalesEngineTest < Minitest::Test
     repo   = Minitest::Mock.new
 
     engine.item_repository = repo
-    repo.expect(:find_items_by_merchant_id, nil, [1])
+    repo.expect(:find_all_by_merchant_id, nil, [1])
     engine.find_items_by_merchant_id(1)
 
     repo.verify

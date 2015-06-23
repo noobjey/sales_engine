@@ -30,7 +30,7 @@ class ItemTest < Minitest::Test
   end
 
   def test_it_has_a_unit_price
-    assert_equal data[:unit_price].to_i, Item.new(data, nil).unit_price
+    assert_equal BigDecimal.new(data[:unit_price]), Item.new(data, nil).unit_price
   end
 
   def test_it_has_a_merchant_id

@@ -19,6 +19,10 @@ class InvoiceItemRepository
     file.close
   end
 
+  def inspect
+    "#<#{self.class} #{invoice_items.size} rows>"
+  end
+
   def find_invoice_items_by_item_id(item_id)
     invoice_items.select { |invoice_item| invoice_item.item_id.eql?(item_id) }
   end
