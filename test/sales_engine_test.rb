@@ -4,6 +4,8 @@ require_relative "../lib/merchant_repository"
 require_relative "../lib/item_repository"
 
 class SalesEngineTest < Minitest::Test
+
+
   def test_it_creates_the_repositories
     engine = SalesEngine.new("./data/fixtures")
 
@@ -99,7 +101,7 @@ class SalesEngineTest < Minitest::Test
     repo   = Minitest::Mock.new
 
     engine.merchant_repository = repo
-    repo.expect(:find_merchant, nil, [1])
+    repo.expect(:find_by_id, nil, [1])
     engine.find_merchant_by_id(1)
 
     repo.verify

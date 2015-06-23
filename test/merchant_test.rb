@@ -37,7 +37,7 @@ class MerchantTest < Minitest::Test
     assert "2012-03-27 14:53:59 UTC", merchant.updated_at
   end
 
-  def test_it_can_talk_to_the_repository_with_items
+  def test_it_can_talk_to_the_repository_with_merchants
     repo = Minitest::Mock.new
     merchant = Merchant.new(data, repo)
 
