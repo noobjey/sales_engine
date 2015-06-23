@@ -15,7 +15,7 @@ class ItemRepositoryTest < Minitest::Test
       id:          1,
       name:        'NaMe',
       description: 'deScriPtiOn',
-      unit_price:  BigDecimal.new(101),
+      unit_price:  BigDecimal.new(1010),
       merchant_id: 1,
       created_at:  '2012-03-27 14:53:59 UTC',
       updated_at:  '2012-03-27 14:53:59 UTC'
@@ -89,8 +89,8 @@ class ItemRepositoryTest < Minitest::Test
     repo       = ItemRepository.new(fake_sales_engine)
     repo.items = items
 
-    assert_equal 4, repo.find_all_by_unit_price(item_input[:unit_price]).size
-    assert_equal item_input[:unit_price], repo.find_all_by_unit_price(item_input[:unit_price]).first.unit_price
+    assert_equal 4, repo.find_all_by_unit_price(item_input[:unit_price]/100).size
+    assert_equal item_input[:unit_price]/100, repo.find_all_by_unit_price(item_input[:unit_price]/100).first.unit_price
   end
 
   def test_find_all_by_merchant_id
@@ -143,7 +143,7 @@ class ItemRepositoryTest < Minitest::Test
     repo       = ItemRepository.new(fake_sales_engine)
     repo.items = items
 
-    assert_equal item_input[:unit_price], repo.find_by_unit_price(item_input[:unit_price]).unit_price
+    assert_equal item_input[:unit_price]/100, repo.find_by_unit_price(item_input[:unit_price]/100).unit_price
   end
 
   def test_find_by_merchant_id
