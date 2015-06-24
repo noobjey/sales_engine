@@ -14,6 +14,7 @@ class SalesEngineTest < Minitest::Test
     assert_equal true, engine.merchant_repository.is_a?(MerchantRepository)
     assert_equal true, engine.item_repository.is_a?(ItemRepository)
     assert_equal true, engine.invoice_repository.is_a?(InvoiceRepository)
+    assert_equal true, engine.invoice_item_repository.is_a?(InvoiceItemRepository)
   end
 
   def test_it_passes_itself_to_repositories
@@ -24,6 +25,14 @@ class SalesEngineTest < Minitest::Test
     assert_equal engine, engine.merchant_repository.sales_engine
     assert_equal engine, engine.item_repository.sales_engine
     assert_equal engine, engine.invoice_repository.sales_engine
+    assert_equal engine, engine.invoice_item_repository.sales_engine
+  end
+
+  def test_it_stores_the_path_to_the_data
+    path   = "the path"
+    engine = SalesEngine.new(path)
+
+    assert_equal path, engine.filepath
   end
 
   def test_it_loads_the_merchant_data
@@ -38,13 +47,6 @@ class SalesEngineTest < Minitest::Test
     repo.verify
   end
 
-  def test_it_stores_the_path_to_the_data
-    path   = "the path"
-    engine = SalesEngine.new(path)
-
-    assert_equal path, engine.filepath
-  end
-
   def test_it_loads_the_items_data
     path   = "./data/fixtures"
     engine = SalesEngine.new(path)
@@ -57,22 +59,6 @@ class SalesEngineTest < Minitest::Test
     repo.verify
   end
 
-  def test_it_creates_an_invoice_item_repository
-    engine = SalesEngine.new("./data/fixtures")
-
-    engine.startup
-
-    assert_equal true, engine.invoice_item_repository.is_a?(InvoiceItemRepository)
-  end
-
-  def test_it_passes_itself_to_invoice_items_repository
-    engine = SalesEngine.new("./data/fixtures")
-
-    engine.startup
-
-    assert_equal engine, engine.invoice_item_repository.sales_engine
-  end
-
   def test_it_loads_the_invoice_items_data
     path   = "./data/fixtures"
     engine = SalesEngine.new(path)
@@ -80,6 +66,18 @@ class SalesEngineTest < Minitest::Test
 
     engine.invoice_item_repository = repo
     repo.expect(:load_data, nil, ["#{path}/invoice_items.csv"])
+    engine.startup
+
+    repo.verify
+  end
+
+  def test_it_loads_the_invoice_data
+    path   = "./data/fixtures"
+    engine = SalesEngine.new(path)
+    repo   = Minitest::Mock.new
+
+    engine.invoice_repository = repo
+    repo.expect(:load_data, nil, ["#{path}/invoices.csv"])
     engine.startup
 
     repo.verify
@@ -114,18 +112,6 @@ class SalesEngineTest < Minitest::Test
     engine.invoice_item_repository = repo
     repo.expect(:find_invoice_items_by_item_id, nil, [1])
     engine.find_invoice_items_by_item_id(1)
-  end
-
-  def test_it_loads_the_invoice_data
-    path   = "./data/fixtures"
-    engine = SalesEngine.new(path)
-    repo   = Minitest::Mock.new
-
-    engine.invoice_repository = repo
-    repo.expect(:load_data, nil, ["#{path}/invoices.csv"])
-    engine.startup
-
-    repo.verify
   end
 
   def test_smoke
