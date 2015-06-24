@@ -43,4 +43,24 @@ class InvoiceItemTest < Minitest::Test
   def test_it_has_the_expected_updated_at
     assert_equal data[:updated_at], InvoiceItem.new(data, nil).updated_at
   end
+
+  def test_has_an_invoice
+    repo     = Minitest::Mock.new
+    invoice_item = InvoiceItem.new(data, repo)
+
+    repo.expect(:find_invoice_by_id, nil, [data[:invoice_id].to_i])
+    invoice_item.invoice
+
+    repo.verify
+  end
+
+  def test_has_an_item
+    repo     = Minitest::Mock.new
+    invoice_item = InvoiceItem.new(data, repo)
+
+    repo.expect(:find_item_by_id, nil, [data[:item_id].to_i])
+    invoice_item.item
+
+    repo.verify
+  end
 end

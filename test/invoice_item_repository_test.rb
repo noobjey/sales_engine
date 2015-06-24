@@ -49,17 +49,6 @@ class InvoiceItemRepositoryTest < Minitest::Test
     assert_equal 10, repo.invoice_items.last.id
   end
 
-  def test_it_finds_invoice_items_by_item_id
-    skip
-    repo               = InvoiceItemRepository.new(fake_sales_engine)
-    item_id            = 539
-    repo.invoice_items = invoice_items
-
-    invoice_items = repo.find_invoice_items_by_item_id(item_id)
-
-    assert_equal 4, invoice_items.size
-  end
-
   def test_it_passes_itself_to_invoice_items
     path = @fixture_path
     repo = InvoiceItemRepository.new(fake_sales_engine)
@@ -189,5 +178,26 @@ class InvoiceItemRepositoryTest < Minitest::Test
     repo.invoice_items = expected
 
     assert_equal expected, repo.all
+  end
+
+  # Upstream
+  def test_it_finds_invoice_by_invoice_id
+    sales_engine = Minitest::Mock.new
+    repo         = InvoiceItemRepository.new(sales_engine)
+
+    sales_engine.expect(:find_invoice_by_id, nil, [invoice_item_input[:invoice_id]])
+    repo.find_invoice_by_id(invoice_item_input[:invoice_id])
+
+    sales_engine.verify
+  end
+
+  def test_it_finds_item_by_item_id
+    sales_engine = Minitest::Mock.new
+    repo         = InvoiceItemRepository.new(sales_engine)
+
+    sales_engine.expect(:find_item_by_id, nil, [invoice_item_input[:item_id]])
+    repo.find_item_by_id(invoice_item_input[:item_id])
+
+    sales_engine.verify
   end
 end

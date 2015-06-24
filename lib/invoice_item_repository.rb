@@ -87,4 +87,14 @@ class InvoiceItemRepository
   def find_all_by_updated_at(updated_at)
     invoice_items.find_all { |invoice_item| invoice_item.updated_at.eql?(updated_at) }
   end
+
+  # Upstream
+  def find_invoice_by_id(id)
+    sales_engine.find_invoice_by_id(id)
+  end
+
+  def find_item_by_id(id)
+    sales_engine.find_item_by_id(id)
+  end
+
 end

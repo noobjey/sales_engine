@@ -114,6 +114,16 @@ class SalesEngineTest < Minitest::Test
     fake_repo.verify
   end
 
+  def test_it_finds_item_by_id
+    engine = SalesEngine.new("the path")
+
+    engine.item_repository = fake_repo
+    fake_repo.expect(:find_by_id, nil, [1])
+    engine.find_item_by_id(1)
+
+    fake_repo.verify
+  end
+
   def test_it_finds_merchant_by_id
     engine = SalesEngine.new("the path")
 
@@ -130,6 +140,16 @@ class SalesEngineTest < Minitest::Test
     engine.invoice_item_repository = fake_repo
     fake_repo.expect(:find_all_by_item_id, nil, [1])
     engine.find_invoice_items_by_item_id(1)
+
+    fake_repo.verify
+  end
+
+  def test_it_finds_invoice_by_id
+    engine = SalesEngine.new("the path")
+
+    engine.invoice_repository = fake_repo
+    fake_repo.expect(:find_by_id, nil, [1])
+    engine.find_invoice_by_id(1)
 
     fake_repo.verify
   end
