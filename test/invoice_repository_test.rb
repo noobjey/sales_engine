@@ -57,7 +57,6 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_all_returns_all_invoices_in_repository
-    skip
     repo          = InvoiceRepository.new(fake_sales_engine)
     expected      = ['array with alot of invoices', 'like two']
     repo.invoices = expected
@@ -66,7 +65,6 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_random_returns_a_random_instance
-    skip
     repo          = InvoiceRepository.new(fake_sales_engine)
     expected      = 10000.times.map { |num| num }
     repo.invoices = expected
@@ -76,48 +74,42 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_find_by_id
-    skip
-    repo              = InvoiceRepository.new(fake_sales_engine)
+    repo          = InvoiceRepository.new(fake_sales_engine)
     repo.invoices = invoices
 
     assert_equal invoice_input[:id], repo.find_by_id(invoice_input[:id]).id
   end
 
   def test_find_by_customer_id
-    skip
-    repo              = InvoiceRepository.new(fake_sales_engine)
+    repo          = InvoiceRepository.new(fake_sales_engine)
     repo.invoices = invoices
 
     assert_equal invoice_input[:customer_id], repo.find_by_customer_id(invoice_input[:customer_id]).customer_id
   end
 
   def test_find_by_merchant_id
-    skip
-    repo              = InvoiceRepository.new(fake_sales_engine)
+    repo          = InvoiceRepository.new(fake_sales_engine)
     repo.invoices = invoices
 
     assert_equal invoice_input[:merchant_id], repo.find_by_merchant_id(invoice_input[:merchant_id]).merchant_id
   end
 
   def test_find_by_status
-    skip
-    repo              = InvoiceRepository.new(fake_sales_engine)
+    repo          = InvoiceRepository.new(fake_sales_engine)
     repo.invoices = invoices
 
     assert_equal invoice_input[:status], repo.find_by_status(invoice_input[:status]).status
   end
 
   def test_find_by_created_at
-    skip
-    repo              = InvoiceRepository.new(fake_sales_engine)
+    repo          = InvoiceRepository.new(fake_sales_engine)
     repo.invoices = invoices
 
     assert_equal invoice_input[:created_at], repo.find_by_created_at(invoice_input[:created_at]).created_at
   end
 
   def test_find_by_updated_at
-    skip
-    repo              = InvoiceRepository.new(fake_sales_engine)
+    repo          = InvoiceRepository.new(fake_sales_engine)
     repo.invoices = invoices
 
     assert_equal invoice_input[:updated_at], repo.find_by_updated_at(invoice_input[:updated_at]).updated_at
@@ -125,7 +117,7 @@ class InvoiceRepositoryTest < Minitest::Test
 
   def test_find_all_by_id
     skip
-    repo              = InvoiceRepository.new(fake_sales_engine)
+    repo          = InvoiceRepository.new(fake_sales_engine)
     repo.invoices = invoices
 
     assert_equal 4, repo.find_all_by_id(invoice_input[:id]).size
@@ -134,7 +126,7 @@ class InvoiceRepositoryTest < Minitest::Test
 
   def test_find_all_by_customer_id
     skip
-    repo              = InvoiceRepository.new(fake_sales_engine)
+    repo          = InvoiceRepository.new(fake_sales_engine)
     repo.invoices = invoices
 
     assert_equal 4, repo.find_all_by_customer_id(invoice_input[:customer_id]).size
@@ -143,7 +135,7 @@ class InvoiceRepositoryTest < Minitest::Test
 
   def test_find_all_by_merchant_id
     skip
-    repo              = InvoiceRepository.new(fake_sales_engine)
+    repo          = InvoiceRepository.new(fake_sales_engine)
     repo.invoices = invoices
 
     assert_equal 4, repo.find_all_by_merchant_id(invoice_input[:merchant_id]).size
@@ -152,7 +144,7 @@ class InvoiceRepositoryTest < Minitest::Test
 
   def test_find_all_by_status
     skip
-    repo              = InvoiceRepository.new(fake_sales_engine)
+    repo          = InvoiceRepository.new(fake_sales_engine)
     repo.invoices = invoices
 
     assert_equal 4, repo.find_all_by_status(invoice_input[:status]).size
@@ -161,7 +153,7 @@ class InvoiceRepositoryTest < Minitest::Test
 
   def test_find_all_by_created_at
     skip
-    repo              = InvoiceRepository.new(fake_sales_engine)
+    repo          = InvoiceRepository.new(fake_sales_engine)
     repo.invoices = invoices
 
     assert_equal 4, repo.find_all_by_created_at(invoice_input[:created_at]).size
@@ -170,7 +162,7 @@ class InvoiceRepositoryTest < Minitest::Test
 
   def test_find_all_by_updated_at
     skip
-    repo              = InvoiceRepository.new(fake_sales_engine)
+    repo          = InvoiceRepository.new(fake_sales_engine)
     repo.invoices = invoices
 
     assert_equal 4, repo.find_all_by_updated_at(invoice_input[:updated_at]).size
