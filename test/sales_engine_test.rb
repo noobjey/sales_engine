@@ -153,4 +153,14 @@ class SalesEngineTest < Minitest::Test
 
     fake_repo.verify
   end
+
+  def test_it_finds_invoices_by_customer_id
+    engine = SalesEngine.new("the path")
+
+    engine.invoice_repository = fake_repo
+    fake_repo.expect(:find_all_by_customer_id, nil, [1])
+    engine.find_invoices_by_customer_id(1)
+
+    fake_repo.verify
+  end
 end
