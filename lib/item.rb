@@ -23,8 +23,8 @@ class Item
     @repository  = repository
   end
 
-  def merchant(id)
-    repository.find_merchant_by_id(id)
+  def merchant
+    repository.find_merchant_by_id(merchant_id)
   end
 
   def invoice_items(id)
