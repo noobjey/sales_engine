@@ -65,7 +65,7 @@ class ItemTest < Minitest::Test
     repo.expect(:find_invoice_items_by_id, nil, [1])
     item = Item.new(data, repo)
 
-    item.invoice_items(item.id)
+    item.invoice_items
 
     repo.verify
   end
