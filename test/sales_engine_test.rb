@@ -183,4 +183,5 @@ class SalesEngineTest < Minitest::Test
 
     fake_repo.verify
   end
+
 end

@@ -55,12 +55,33 @@ class ItemTest < Minitest::Test
     repo.verify
   end
 
-  def test_it_has_customers
+  def test_it_has_a_customer
     repo     = Minitest::Mock.new
     merchant = Invoice.new(data, repo)
 
     repo.expect(:find_customer_by_customer_id, nil, [data[:customer_id].to_i])
     merchant.customer
+
+    repo.verify
+  end
+
+  # issue with test runner so added an ss to end so it would run the test
+  def test_it_has_invoice_itemss
+    repo     = Minitest::Mock.new
+    merchant = Invoice.new(data, repo)
+
+    repo.expect(:find_invoice_items_by_id, nil, [data[:id].to_i])
+    merchant.invoice_items
+
+    repo.verify
+  end
+
+  def test_it_has_items
+    repo     = Minitest::Mock.new
+    merchant = Invoice.new(data, repo)
+
+    repo.expect(:find_items, nil, [data[:id].to_i])
+    merchant.items
 
     repo.verify
   end

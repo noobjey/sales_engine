@@ -25,4 +25,12 @@ class Invoice
   def customer
     repository.find_customer_by_customer_id(customer_id)
   end
+
+  def invoice_items
+    repository.find_invoice_items_by_id(id)
+  end
+
+  def items
+    repository.find_items(id)
+  end
 end
