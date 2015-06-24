@@ -2,18 +2,18 @@ require_relative 'merchant_repository'
 require_relative 'item_repository'
 require_relative 'invoice_repository'
 require_relative 'invoice_item_repository'
-# # require_relative 'customer_repository'
-# # require_relative 'transaction_repository'
+require_relative 'customer_repository'
+require_relative 'transaction_repository'
 
 class SalesEngine
   attr_accessor :merchant_repository,
                 :item_repository,
-                # :customer_repository,
+                :invoice_repository,
                 :invoice_item_repository,
-                :invoice_repository
-  # :transaction_repository,
+                :customer_repository,
+                :transaction_repository
 
-  attr_reader :filepath
+  attr_reader   :filepath
 
   def initialize(filepath)
     @filepath = filepath
@@ -26,10 +26,10 @@ class SalesEngine
     @item_repository.load_data("#{filepath}/items.csv")
     @invoice_repository ||= InvoiceRepository.new(self)
     @invoice_repository.load_data("#{@filepath}/invoices.csv")
-    # @customer_repository ||= CustomerRepository.new(self)
-    # @customer_repository.load_data("#{@filepath}/customers.csv")
-    # @transaction_repository ||= TransactionRepository.new(self)
-    # @transaction_repository.load_data("#{@filepath}/transactions.csv")
+    @customer_repository ||= CustomerRepository.new(self)
+    @customer_repository.load_data("#{@filepath}/customers.csv")
+    @transaction_repository ||= TransactionRepository.new(self)
+    @transaction_repository.load_data("#{@filepath}/transactions.csv")
     @invoice_item_repository ||= InvoiceItemRepository.new(self)
     @invoice_item_repository.load_data("#{@filepath}/invoice_items.csv")
   end

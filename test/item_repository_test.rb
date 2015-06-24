@@ -165,8 +165,6 @@ class ItemRepositoryTest < Minitest::Test
     assert_equal item_input[:updated_at], repo.find_by_updated_at(item_input[:updated_at]).updated_at
   end
 
-  # Will only fail once every 5000 runs i think
-  # might delete this after asking advice
   def test_random_returns_a_random_instance
     repo       = ItemRepository.new(fake_sales_engine)
     expected   = 10000.times.map { |num| num }
