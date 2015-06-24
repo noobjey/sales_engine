@@ -15,6 +15,8 @@ class SalesEngineTest < Minitest::Test
     assert_equal true, engine.item_repository.is_a?(ItemRepository)
     assert_equal true, engine.invoice_repository.is_a?(InvoiceRepository)
     assert_equal true, engine.invoice_item_repository.is_a?(InvoiceItemRepository)
+    assert_equal true, engine.customer_repository.is_a?(CustomerRepository)
+    assert_equal true, engine.transaction_repository.is_a?(TransactionRepository)
   end
 
   def test_it_passes_itself_to_repositories
@@ -26,6 +28,8 @@ class SalesEngineTest < Minitest::Test
     assert_equal engine, engine.item_repository.sales_engine
     assert_equal engine, engine.invoice_repository.sales_engine
     assert_equal engine, engine.invoice_item_repository.sales_engine
+    assert_equal engine, engine.customer_repository.sales_engine
+    # assert_equal engine, engine.transaction_repository.sales_engine
   end
 
   def test_it_stores_the_path_to_the_data
@@ -78,6 +82,31 @@ class SalesEngineTest < Minitest::Test
 
     engine.invoice_repository = repo
     repo.expect(:load_data, nil, ["#{path}/invoices.csv"])
+    engine.startup
+
+    repo.verify
+  end
+
+  def test_it_loads_the_customer_data
+    path   = "./data/fixtures"
+    engine = SalesEngine.new(path)
+    repo   = Minitest::Mock.new
+
+    engine.customer_repository = repo
+    repo.expect(:load_data, nil, ["#{path}/customers.csv"])
+    engine.startup
+
+    repo.verify
+  end
+
+  def test_it_loads_the_transaction_data
+    skip
+    path   = "./data/fixtures"
+    engine = SalesEngine.new(path)
+    repo   = Minitest::Mock.new
+
+    engine.transaction_repository = repo
+    repo.expect(:load_data, nil, ["#{path}/transactions.csv"])
     engine.startup
 
     repo.verify
