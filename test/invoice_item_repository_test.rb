@@ -49,17 +49,6 @@ class InvoiceItemRepositoryTest < Minitest::Test
     assert_equal 10, repo.invoice_items.last.id
   end
 
-  def test_it_finds_invoice_items_by_item_id
-    skip
-    repo               = InvoiceItemRepository.new(fake_sales_engine)
-    item_id            = 539
-    repo.invoice_items = invoice_items
-
-    invoice_items = repo.find_invoice_items_by_item_id(item_id)
-
-    assert_equal 4, invoice_items.size
-  end
-
   def test_it_passes_itself_to_invoice_items
     path = @fixture_path
     repo = InvoiceItemRepository.new(fake_sales_engine)
