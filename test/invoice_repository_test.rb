@@ -162,4 +162,15 @@ class InvoiceRepositoryTest < Minitest::Test
     assert_equal 4, repo.find_all_by_updated_at(invoice_input[:updated_at]).size
     assert_equal invoice_input[:updated_at], repo.find_all_by_updated_at(invoice_input[:updated_at]).first.updated_at
   end
+
+  # Upstream
+  def test_it_finds_items_by_merchant_id
+    sales_engine = Minitest::Mock.new
+    repo         = InvoiceRepository.new(sales_engine)
+
+    sales_engine.expect(:find_transactions_by_invoice_id, nil, [invoice_input[:id]])
+    repo.find_transactions_by_id(invoice_input[:id])
+
+    sales_engine.verify
+  end
 end

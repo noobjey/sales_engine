@@ -7,8 +7,8 @@ class SalesEngineTest < Minitest::Test
 
   def setup
     @fake_sales_engine = "fake sales engine"
-    @path = "./data/fixtures"
-    @fake_repo = Minitest::Mock.new
+    @path              = "./data/fixtures"
+    @fake_repo         = Minitest::Mock.new
   end
 
   def test_it_creates_the_repositories
@@ -38,8 +38,8 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_stores_the_path_to_the_data
-    data_path   = "the path"
-    engine = SalesEngine.new(data_path)
+    data_path = "the path"
+    engine    = SalesEngine.new(data_path)
 
     assert_equal data_path, engine.filepath
   end
@@ -160,6 +160,16 @@ class SalesEngineTest < Minitest::Test
     engine.invoice_repository = fake_repo
     fake_repo.expect(:find_all_by_customer_id, nil, [1])
     engine.find_invoices_by_customer_id(1)
+
+    fake_repo.verify
+  end
+
+  def test_it_finds_transactions_by_invoice_id
+    engine = SalesEngine.new("the path")
+
+    engine.transaction_repository = fake_repo
+    fake_repo.expect(:find_all_by_invoice_id, nil, [1])
+    engine.find_transactions_by_invoice_id(1)
 
     fake_repo.verify
   end

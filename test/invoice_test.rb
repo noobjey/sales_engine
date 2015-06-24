@@ -44,4 +44,14 @@ class ItemTest < Minitest::Test
     repository = 'fake repository'
     assert_equal repository, Invoice.new(data, repository).repository
   end
+
+  def test_it_has_transactions
+    repo     = Minitest::Mock.new
+    merchant = Invoice.new(data, repo)
+
+    repo.expect(:find_transactions_by_id, nil, [data[:id].to_i])
+    merchant.transactions
+
+    repo.verify
+  end
 end
