@@ -113,22 +113,4 @@ class SalesEngineTest < Minitest::Test
     repo.expect(:find_invoice_items_by_item_id, nil, [1])
     engine.find_invoice_items_by_item_id(1)
   end
-
-  def test_smoke
-    skip
-    engine = SalesEngine.new("./data/fixtures")
-
-    engine.startup
-
-    assert_equal 'Schroeder-Jerde', engine.find_merchant_by_id(1).name
-    assert_equal 10, engine.find_items_by_merchant_id(1).length
-    assert_equal 32301, engine.find_items_by_merchant_id(1)[2].unit_price
-
-    assert_equal 2, engine.find_invoice_items_by_item_id(539).size
-    assert_equal 1, engine.find_invoice_items_by_item_id(539).first.id
-
-    assert_equal 1, engine.find_invoice_by_id(4).customer_id
-    assert_equal 1, engine.find_invoices_by_merchant_id(78).length
-    assert_equal 3, engine.find_invoices_by_merchant_id(78).first.id
-  end
 end
