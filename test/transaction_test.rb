@@ -7,7 +7,7 @@ class TransactionTest < Minitest::Test
 
   def setup
     @data = {
-      id:                          "1",
+      id:                          "2",
       invoice_id:                  "1",
       credit_card_number:          "4654405418249632",
       credit_card_expiration_date: "",
@@ -50,4 +50,13 @@ class TransactionTest < Minitest::Test
     assert_equal repository, Transaction.new(data, repository).repository
   end
 
+  def test_it_has_an_invoice
+    repo = Minitest::Mock.new
+    transaction = Transaction.new(data, repo)
+
+    repo.expect(:find_invoice_by_invoice_id, nil, [data[:invoice_id].to_i])
+    transaction.invoice
+
+    repo.verify
+  end
 end

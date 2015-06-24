@@ -86,4 +86,9 @@ class TransactionRepository
   def find_all_by_updated_at(updated_at)
     transactions.find_all { |transaction| transaction.updated_at.eql?(updated_at) }
   end
+
+  # Upstream
+  def find_invoice_by_invoice_id(invoice_id)
+    sales_engine.find_invoice_by_id(invoice_id)
+  end
 end
