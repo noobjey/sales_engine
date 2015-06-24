@@ -1,4 +1,4 @@
-# require 'bigdecimal'
+require 'bigdecimal'
 
 class InvoiceItem
   attr_reader :id,
@@ -7,7 +7,8 @@ class InvoiceItem
               :quantity,
               :unit_price,
               :created_at,
-              :updated_at
+              :updated_at,
+              :repository
 
   def initialize(line, repository)
     @id         = line[:id].to_i
