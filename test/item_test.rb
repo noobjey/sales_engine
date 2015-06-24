@@ -55,7 +55,7 @@ class ItemTest < Minitest::Test
     repo.expect(:find_merchant_by_id, nil, [1])
     item = Item.new(data, repo)
 
-    item.merchant(item.id)
+    item.merchant
 
     repo.verify
   end
