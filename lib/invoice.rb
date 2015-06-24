@@ -21,4 +21,8 @@ class Invoice
   def transactions
     repository.find_transactions_by_id(id)
   end
+
+  def customer
+    repository.find_customer_by_customer_id(customer_id)
+  end
 end

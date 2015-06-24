@@ -54,4 +54,14 @@ class ItemTest < Minitest::Test
 
     repo.verify
   end
+
+  def test_it_has_customers
+    repo     = Minitest::Mock.new
+    merchant = Invoice.new(data, repo)
+
+    repo.expect(:find_customer_by_customer_id, nil, [data[:customer_id].to_i])
+    merchant.customer
+
+    repo.verify
+  end
 end

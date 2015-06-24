@@ -173,4 +173,14 @@ class InvoiceRepositoryTest < Minitest::Test
 
     sales_engine.verify
   end
+
+  def test_it_finds_customers_by_customer_id
+    sales_engine = Minitest::Mock.new
+    repo         = InvoiceRepository.new(sales_engine)
+
+    sales_engine.expect(:find_customer_by_id, nil, [invoice_input[:customer_id]])
+    repo.find_customer_by_customer_id(invoice_input[:customer_id])
+
+    sales_engine.verify
+  end
 end
