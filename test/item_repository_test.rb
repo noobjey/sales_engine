@@ -26,7 +26,6 @@ class ItemRepositoryTest < Minitest::Test
     item4 = Item.new(item_input, nil)
 
     @items = [item2, item1, item3, item4]
-
   end
 
   def test_it_knows_its_parent
