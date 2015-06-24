@@ -2,14 +2,13 @@ require_relative "test_helper"
 require_relative "../lib/sales_engine"
 
 class SalesEngineTest < Minitest::Test
-  attr_reader :path
-              # :customers,
-              # :fake_sales_engine,
-              # :fixture_path,
+  attr_reader :path,
+              :fake_repo
 
   def setup
     @fake_sales_engine = "fake sales engine"
-    @path      = "./data/fixtures"
+    @path = "./data/fixtures"
+    @fake_repo = Minitest::Mock.new
   end
 
   def test_it_creates_the_repositories
@@ -47,98 +46,89 @@ class SalesEngineTest < Minitest::Test
 
   def test_it_loads_the_merchant_data
     engine = SalesEngine.new(path)
-    repo   = Minitest::Mock.new
 
-    engine.merchant_repository = repo
-    repo.expect(:load_data, nil, ["#{path}/merchants.csv"])
+    engine.merchant_repository = fake_repo
+    fake_repo.expect(:load_data, nil, ["#{path}/merchants.csv"])
     engine.startup
 
-    repo.verify
+    fake_repo.verify
   end
 
   def test_it_loads_the_items_data
     engine = SalesEngine.new(path)
-    repo   = Minitest::Mock.new
 
-    engine.item_repository = repo
-    repo.expect(:load_data, nil, ["#{path}/items.csv"])
+    engine.item_repository = fake_repo
+    fake_repo.expect(:load_data, nil, ["#{path}/items.csv"])
     engine.startup
 
-    repo.verify
+    fake_repo.verify
   end
 
   def test_it_loads_the_invoice_items_data
     engine = SalesEngine.new(path)
-    repo   = Minitest::Mock.new
 
-    engine.invoice_item_repository = repo
-    repo.expect(:load_data, nil, ["#{path}/invoice_items.csv"])
+    engine.invoice_item_repository = fake_repo
+    fake_repo.expect(:load_data, nil, ["#{path}/invoice_items.csv"])
     engine.startup
 
-    repo.verify
+    fake_repo.verify
   end
 
   def test_it_loads_the_invoice_data
     engine = SalesEngine.new(path)
-    repo   = Minitest::Mock.new
 
-    engine.invoice_repository = repo
-    repo.expect(:load_data, nil, ["#{path}/invoices.csv"])
+    engine.invoice_repository = fake_repo
+    fake_repo.expect(:load_data, nil, ["#{path}/invoices.csv"])
     engine.startup
 
-    repo.verify
+    fake_repo.verify
   end
 
   def test_it_loads_the_customer_data
     engine = SalesEngine.new(path)
-    repo   = Minitest::Mock.new
 
-    engine.customer_repository = repo
-    repo.expect(:load_data, nil, ["#{path}/customers.csv"])
+    engine.customer_repository = fake_repo
+    fake_repo.expect(:load_data, nil, ["#{path}/customers.csv"])
     engine.startup
 
-    repo.verify
+    fake_repo.verify
   end
 
   def test_it_loads_the_transaction_data
     engine = SalesEngine.new(path)
-    repo   = Minitest::Mock.new
 
-    engine.transaction_repository = repo
-    repo.expect(:load_data, nil, ["#{path}/transactions.csv"])
+    engine.transaction_repository = fake_repo
+    fake_repo.expect(:load_data, nil, ["#{path}/transactions.csv"])
     engine.startup
 
-    repo.verify
+    fake_repo.verify
   end
 
   def test_it_finds_items_by_merchant_id
     engine = SalesEngine.new("the path")
-    repo   = Minitest::Mock.new
 
-    engine.item_repository = repo
-    repo.expect(:find_all_by_merchant_id, nil, [1])
+    engine.item_repository = fake_repo
+    fake_repo.expect(:find_all_by_merchant_id, nil, [1])
     engine.find_items_by_merchant_id(1)
 
-    repo.verify
+    fake_repo.verify
   end
 
   def test_it_finds_merchant_by_id
     engine = SalesEngine.new("the path")
-    repo   = Minitest::Mock.new
 
-    engine.merchant_repository = repo
-    repo.expect(:find_by_id, nil, [1])
+    engine.merchant_repository = fake_repo
+    fake_repo.expect(:find_by_id, nil, [1])
     engine.find_merchant_by_id(1)
 
-    repo.verify
+    fake_repo.verify
   end
 
   def test_it_finds_invoice_items_by_item_id
     engine = SalesEngine.new("the path")
-    repo   = Minitest::Mock.new
 
-    engine.invoice_item_repository = repo
-    repo.expect(:find_invoice_items_by_item_id, nil, [1])
+    engine.invoice_item_repository = fake_repo
+    fake_repo.expect(:find_invoice_items_by_item_id, nil, [1])
     engine.find_invoice_items_by_item_id(1)
   end
 end
