@@ -1,7 +1,5 @@
 require_relative "test_helper"
 require_relative "../lib/sales_engine"
-require_relative "../lib/merchant_repository"
-require_relative "../lib/item_repository"
 
 class SalesEngineTest < Minitest::Test
 
@@ -29,7 +27,7 @@ class SalesEngineTest < Minitest::Test
     assert_equal engine, engine.invoice_repository.sales_engine
     assert_equal engine, engine.invoice_item_repository.sales_engine
     assert_equal engine, engine.customer_repository.sales_engine
-    # assert_equal engine, engine.transaction_repository.sales_engine
+    assert_equal engine, engine.transaction_repository.sales_engine
   end
 
   def test_it_stores_the_path_to_the_data
@@ -100,7 +98,6 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_loads_the_transaction_data
-    skip
     path   = "./data/fixtures"
     engine = SalesEngine.new(path)
     repo   = Minitest::Mock.new
