@@ -1,7 +1,6 @@
 require_relative 'test_helper'
 require_relative '../lib/item_repository'
 
-
 class ItemRepositoryTest < Minitest::Test
   attr_reader :items,
               :fake_sales_engine,
@@ -27,7 +26,6 @@ class ItemRepositoryTest < Minitest::Test
     item4 = Item.new(item_input, nil)
 
     @items = [item2, item1, item3, item4]
-
   end
 
   def test_it_knows_its_parent

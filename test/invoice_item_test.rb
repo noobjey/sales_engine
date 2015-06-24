@@ -33,7 +33,7 @@ class InvoiceItemTest < Minitest::Test
   end
 
   def test_it_has_the_expected_unit_price
-    assert_equal data[:unit_price].to_i, InvoiceItem.new(data, nil).unit_price
+    assert_equal BigDecimal.new(data[:unit_price])/100, InvoiceItem.new(data, nil).unit_price
   end
 
   def test_it_has_the_expected_created_at

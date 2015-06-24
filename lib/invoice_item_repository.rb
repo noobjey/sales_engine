@@ -24,6 +24,6 @@ class InvoiceItemRepository
   end
 
   def find_invoice_items_by_item_id(item_id)
-    invoice_items.select { |invoice_item| invoice_item.item_id.eql?(item_id) }
+    invoice_items.find_all { |invoice_item| invoice_item.item_id.eql?(item_id) }
   end
 end
