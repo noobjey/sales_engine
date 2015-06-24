@@ -55,5 +55,27 @@ class InvoiceRepository
     invoices.find { |invoice| invoice.updated_at.eql?(updated_at) }
   end
 
+  def find_all_by_id(id)
+    invoices.find_all { |invoice| invoice.id.eql?(id) }
+  end
 
+  def find_all_by_customer_id(customer_id)
+    invoices.find_all { |invoice| invoice.customer_id.eql?(customer_id) }
+  end
+
+  def find_all_by_merchant_id(merchant_id)
+    invoices.find_all { |invoice| invoice.merchant_id.eql?(merchant_id) }
+  end
+
+  def find_all_by_status(status)
+    invoices.find_all { |invoice| invoice.status.eql?(status) }
+  end
+
+  def find_all_by_created_at(created_at)
+    invoices.find_all { |invoice| invoice.created_at.eql?(created_at) }
+  end
+
+  def find_all_by_updated_at(updated_at)
+    invoices.find_all { |invoice| invoice.updated_at.eql?(updated_at) }
+  end
 end

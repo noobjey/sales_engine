@@ -116,7 +116,6 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_find_all_by_id
-    skip
     repo          = InvoiceRepository.new(fake_sales_engine)
     repo.invoices = invoices
 
@@ -125,7 +124,6 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_find_all_by_customer_id
-    skip
     repo          = InvoiceRepository.new(fake_sales_engine)
     repo.invoices = invoices
 
@@ -134,7 +132,6 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_find_all_by_merchant_id
-    skip
     repo          = InvoiceRepository.new(fake_sales_engine)
     repo.invoices = invoices
 
@@ -143,7 +140,6 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_find_all_by_status
-    skip
     repo          = InvoiceRepository.new(fake_sales_engine)
     repo.invoices = invoices
 
@@ -152,7 +148,6 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_find_all_by_created_at
-    skip
     repo          = InvoiceRepository.new(fake_sales_engine)
     repo.invoices = invoices
 
@@ -161,7 +156,6 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_find_all_by_updated_at
-    skip
     repo          = InvoiceRepository.new(fake_sales_engine)
     repo.invoices = invoices
 
