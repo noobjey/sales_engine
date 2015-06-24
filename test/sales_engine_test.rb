@@ -2,7 +2,15 @@ require_relative "test_helper"
 require_relative "../lib/sales_engine"
 
 class SalesEngineTest < Minitest::Test
+  attr_reader :path
+              # :customers,
+              # :fake_sales_engine,
+              # :fixture_path,
 
+  def setup
+    @fake_sales_engine = "fake sales engine"
+    @path      = "./data/fixtures"
+  end
 
   def test_it_creates_the_repositories
     engine = SalesEngine.new("./data/fixtures")
@@ -31,14 +39,13 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_stores_the_path_to_the_data
-    path   = "the path"
-    engine = SalesEngine.new(path)
+    data_path   = "the path"
+    engine = SalesEngine.new(data_path)
 
-    assert_equal path, engine.filepath
+    assert_equal data_path, engine.filepath
   end
 
   def test_it_loads_the_merchant_data
-    path   = "./data/fixtures"
     engine = SalesEngine.new(path)
     repo   = Minitest::Mock.new
 
@@ -50,7 +57,6 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_loads_the_items_data
-    path   = "./data/fixtures"
     engine = SalesEngine.new(path)
     repo   = Minitest::Mock.new
 
@@ -62,7 +68,6 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_loads_the_invoice_items_data
-    path   = "./data/fixtures"
     engine = SalesEngine.new(path)
     repo   = Minitest::Mock.new
 
@@ -74,7 +79,6 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_loads_the_invoice_data
-    path   = "./data/fixtures"
     engine = SalesEngine.new(path)
     repo   = Minitest::Mock.new
 
@@ -86,7 +90,6 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_loads_the_customer_data
-    path   = "./data/fixtures"
     engine = SalesEngine.new(path)
     repo   = Minitest::Mock.new
 
@@ -98,7 +101,6 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_loads_the_transaction_data
-    path   = "./data/fixtures"
     engine = SalesEngine.new(path)
     repo   = Minitest::Mock.new
 
