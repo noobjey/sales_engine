@@ -185,8 +185,18 @@ class InvoiceItemRepositoryTest < Minitest::Test
     sales_engine = Minitest::Mock.new
     repo         = InvoiceItemRepository.new(sales_engine)
 
-    sales_engine.expect(:find_invoice_by_id, nil, [1])
-    repo.find_invoice_by_id(1)
+    sales_engine.expect(:find_invoice_by_id, nil, [invoice_item_input[:invoice_id]])
+    repo.find_invoice_by_id(invoice_item_input[:invoice_id])
+
+    sales_engine.verify
+  end
+
+  def test_it_finds_item_by_item_id
+    sales_engine = Minitest::Mock.new
+    repo         = InvoiceItemRepository.new(sales_engine)
+
+    sales_engine.expect(:find_item_by_id, nil, [invoice_item_input[:item_id]])
+    repo.find_item_by_id(invoice_item_input[:item_id])
 
     sales_engine.verify
   end
