@@ -19,16 +19,16 @@ class TransactionRepository
     end
   end
 
+  def inspect
+    "#<#{self.class} #{transactions.size} rows>"
+  end
+
   def all
     transactions
   end
 
   def random
     transactions[Random.new.rand(transactions.size)]
-  end
-
-  def inspect
-    "#<#{self.class} #{transactions.size} rows>"
   end
 
   def find_by_id(id)
