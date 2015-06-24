@@ -95,7 +95,6 @@ class MerchantRepositoryTest < Minitest::Test
     assert_equal merchant_input[:updated_at], repo.find_all_by_updated_at(merchant_input[:updated_at]).first.updated_at
   end
 
-
   def test_find_by_id
     repo           = MerchantRepository.new(fake_sales_engine)
     repo.merchants = merchants

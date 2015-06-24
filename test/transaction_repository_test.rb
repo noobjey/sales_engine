@@ -180,4 +180,14 @@ class TransactionRepositoryTest < Minitest::Test
     assert_equal 4, repo.find_all_by_updated_at(transaction_input[:updated_at]).size
     assert_equal transaction_input[:updated_at], repo.find_all_by_updated_at(transaction_input[:updated_at]).first.updated_at
   end
+
+  def test_find_invoice_by_id
+    sales_engine = Minitest::Mock.new
+    repo = TransactionRepository.new(sales_engine)
+
+    sales_engine.expect(:find_invoice_by_id, nil, [transaction_input[:invoice_id]])
+    repo.find_invoice_by_invoice_id(transaction_input[:invoice_id])
+
+    sales_engine.verify
+  end
 end
