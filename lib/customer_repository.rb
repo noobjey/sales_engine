@@ -71,4 +71,9 @@ class CustomerRepository
   def find_all_by_updated_at(updated_at)
     customers.find_all { |customer| customer.updated_at.eql?(updated_at) }
   end
+
+  # Upstream
+  def find_invoices_by_customer_id(customer_id)
+    sales_engine.find_invoices_by_customer_id(customer_id)
+  end
 end

@@ -6,12 +6,12 @@ class CustomerTest < Minitest::Test
 
   def setup
     @data = {
-              id:         "1",
-              first_name: "Joey",
-              last_name:  "Ondricka",
-              created_at: "2012-03-27 14:54:09 UTC",
-              updated_at: "2012-03-27 14:54:09 UTC"
-            }
+      id:         "1",
+      first_name: "Joey",
+      last_name:  "Ondricka",
+      created_at: "2012-03-27 14:54:09 UTC",
+      updated_at: "2012-03-27 14:54:09 UTC"
+    }
   end
 
   def test_it_has_the_expected_initialized_id
@@ -47,5 +47,15 @@ class CustomerTest < Minitest::Test
   def test_it_knows_its_repository
     repository = 'fake repository'
     assert_equal repository, Customer.new(data, repository).repository
+  end
+
+  def test_it_has_invoices
+    repo         = Minitest::Mock.new
+    customer = Customer.new(data, repo)
+
+    repo.expect(:find_invoices_by_customer_id, nil, [data[:id].to_i])
+    customer.invoices
+
+    repo.verify
   end
 end
