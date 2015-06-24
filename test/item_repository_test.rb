@@ -17,7 +17,7 @@ class ItemRepositoryTest < Minitest::Test
       unit_price:  BigDecimal.new(1010),
       merchant_id: 1,
       created_at:  '2012-03-27 14:53:59 UTC',
-      updated_at:  '2012-03-27 14:53:59 UTC'
+      updated_at:  '2013-03-27 14:53:59 UTC'
     }
 
     item1 = Item.new(item_input, nil)
@@ -112,7 +112,7 @@ class ItemRepositoryTest < Minitest::Test
     repo.items = items
 
     assert_equal 4, repo.find_all_by_updated_at(item_input[:updated_at]).size
-    assert_equal item_input[:updated_at], repo.find_all_by_updated_at(item_input[:updated_at]).first.created_at
+    assert_equal item_input[:updated_at], repo.find_all_by_updated_at(item_input[:updated_at]).first.updated_at
   end
 
 
@@ -194,15 +194,6 @@ class ItemRepositoryTest < Minitest::Test
     sales_engine.verify
   end
 
-  # Downstream lookups
-  def test_it_finds_all_items_by_merchant_id
-    repo       = ItemRepository.new(fake_sales_engine)
-    repo.items = @items
-
-    assert_equal 4, repo.find_all_by_merchant_id(1).length
-    assert_equal 1, repo.find_all_by_merchant_id(1).last.merchant_id
-  end
-
   def test_it_finds_all_invoice_items_by_item_id
     sales_engine = Minitest::Mock.new
     repo         = ItemRepository.new(sales_engine)
@@ -212,5 +203,14 @@ class ItemRepositoryTest < Minitest::Test
     repo.find_invoice_items_by_id(id)
 
     sales_engine.verify
+  end
+
+  # Downstream lookups
+  def test_it_finds_all_items_by_merchant_id
+    repo       = ItemRepository.new(fake_sales_engine)
+    repo.items = @items
+
+    assert_equal 4, repo.find_all_by_merchant_id(1).length
+    assert_equal 1, repo.find_all_by_merchant_id(1).last.merchant_id
   end
 end

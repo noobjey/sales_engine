@@ -13,7 +13,7 @@ class SalesEngine
                 :customer_repository,
                 :transaction_repository
 
-  attr_reader   :filepath
+  attr_reader :filepath
 
   def initialize(filepath)
     @filepath = filepath
@@ -43,6 +43,6 @@ class SalesEngine
   end
 
   def find_invoice_items_by_item_id(id)
-    invoice_item_repository.find_invoice_items_by_item_id(id)
+    invoice_item_repository.find_all_by_item_id(id)
   end
 end

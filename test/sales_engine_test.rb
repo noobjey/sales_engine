@@ -128,7 +128,9 @@ class SalesEngineTest < Minitest::Test
     engine = SalesEngine.new("the path")
 
     engine.invoice_item_repository = fake_repo
-    fake_repo.expect(:find_invoice_items_by_item_id, nil, [1])
+    fake_repo.expect(:find_all_by_item_id, nil, [1])
     engine.find_invoice_items_by_item_id(1)
+
+    fake_repo.verify
   end
 end
