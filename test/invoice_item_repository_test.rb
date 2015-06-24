@@ -59,12 +59,12 @@ class InvoiceItemRepositoryTest < Minitest::Test
   def test_it_finds_invoice_items_by_item_id
       sales_engine   = "fake sales engine"
       repo           = InvoiceItemRepository.new(sales_engine)
-      item_id             = 2
+      item_id             = 539
       repo.invoice_items = invoice_items
 
       invoice_items = repo.find_invoice_items_by_item_id(item_id)
 
-      assert_equal 2, invoice_items.size
+      assert_equal 4, invoice_items.size
   end
 
 end
