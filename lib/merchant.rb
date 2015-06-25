@@ -27,17 +27,26 @@ class Merchant
   end
 
   def revenue(date = nil)
-    date.nil? ? calculate_revenue(self.invoices) : calculate_revenue(find_all_invoices_for_date(date, self.invoices))
+    if date.nil?
+      calculate_revenue(self.invoices)
+    else
+      calculate_revenue(find_all_invoices_for_date(date, self.invoices))
+    end
   end
 
   def customers_with_pending_invoices
-    invoices.map { |invoice| invoice.customer unless has_successful_transactions?(invoice) }.compact
+      invoices.map do |invoice| invoice.customer unless has_successful_transactions?(invoice)
+    end.compact
   end
 
   def favorite_customer
     successful = find_successful_transactions(self.invoices)
-    freq       = successful.inject(Hash.new(0)) { |h, invoice| h[invoice.customer_id] += 1; h }
-    successful.find { |invoice| invoice.customer_id == freq.max_by { |key, value| value }.first }.customer
+    freq       = successful.inject(Hash.new(0)) do |h, invoice|
+      h[invoice.customer_id] += 1; h
+    end
+    successful.find do |invoice|
+      invoice.customer_id == freq.max_by { |key, value| value }.first
+    end.customer
   end
 
   def successful_invoices(invoices)
@@ -46,8 +55,12 @@ class Merchant
 
   def total_items_sold
     successful_invoices = self.successful_invoices(self.invoices)
-    successful_invoice_items = successful_invoices.map { |invoice| invoice.invoice_items}.flatten
-    self.items_sold = successful_invoice_items.inject(0) { |total, invoice_item| total + (invoice_item.quantity) }
+    successful_invoice_items = successful_invoices.map do |invoice|
+      invoice.invoice_items
+    end.flatten
+    self.items_sold = successful_invoice_items.inject(0) do |total, invoice_item|
+      total + (invoice_item.quantity)
+    end
   end
 
   private
@@ -57,7 +70,9 @@ class Merchant
   end
 
   def total(invoice_items)
-    invoice_items.inject(0) { |total, invoice_item| total + (invoice_item.unit_price * invoice_item.quantity) }
+    invoice_items.inject(0) do |total, invoice_item|
+      total + (invoice_item.unit_price * invoice_item.quantity)
+    end
   end
 
   def get_invoice_items(transactions)
@@ -69,7 +84,9 @@ class Merchant
   end
 
   def has_successful_transactions?(invoice)
-    invoice.transactions.any? { |transaction| transaction.result.eql?('success') }
+    invoice.transactions.any? do |transaction|
+      transaction.result.eql?('success')
+    end
   end
 
   def find_all_invoices_for_date(date, invoices)

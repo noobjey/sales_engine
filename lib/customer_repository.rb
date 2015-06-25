@@ -37,11 +37,15 @@ class CustomerRepository
   end
 
   def find_by_first_name(first_name)
-    customers.find { |customer| customer.first_name.downcase.eql?(first_name.downcase) }
+    customers.find do |customer|
+      customer.first_name.downcase.eql?(first_name.downcase)
+    end
   end
 
   def find_by_last_name(last_name)
-    customers.find { |customer| customer.last_name.downcase.eql?(last_name.downcase) }
+    customers.find do |customer|
+      customer.last_name.downcase.eql?(last_name.downcase)
+    end
   end
 
   def find_by_created_at(created_at)

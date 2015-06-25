@@ -40,7 +40,9 @@ class ItemRepository
   end
 
   def find_all_by_description(description)
-    items.find_all { |item| item.description.downcase.eql?(description.downcase) }
+    items.find_all do |item|
+      item.description.downcase.eql?(description.downcase)
+    end
   end
 
   def find_all_by_unit_price(unit_price)
@@ -97,15 +99,18 @@ class ItemRepository
   end
 
   def most_items(top)
-    freq          = items.inject(Hash.new(0)) { |h, item| h[item] = item.quantity_sold; h }
+    freq          = items.inject(Hash.new(0)) do |h, item|
+      h[item] = item.quantity_sold; h
+    end
     sorted_result = freq.sort_by { |k, v| v }.reverse.take(top)
     final         = sorted_result.map { |result| result.first }
-    require 'pry'; binding.pry
     final
   end
 
   def most_revenue(top)
-    item_revenue        = items.inject(Hash.new(0)) { |h, item| h[item] = item.revenue; h }
+    item_revenue        = items.inject(Hash.new(0)) do |h, item|
+      h[item] = item.revenue; h
+    end
     sorted_item_revenue = item_revenue.sort_by { |k, v| v }.reverse.take(top)
     sorted_item_revenue.map { |item_revenue| item_revenue.first }
   end

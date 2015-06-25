@@ -24,8 +24,12 @@ class Customer
   end
 
   def favorite_merchant
-    transactions_per_merchant = transactions.inject(Hash.new(0)) { |h, transaction| h[transaction.invoice.merchant_id] += 1; h }
-    favorite_merchant_id      = transactions_per_merchant.sort_by { |k, v| v }.reverse.first.first
+    transactions_per_merchant = transactions.inject(Hash.new(0)) do |h, transaction|
+      h[transaction.invoice.merchant_id] += 1; h
+    end
+    favorite_merchant_id = transactions_per_merchant.sort_by do |k, v|
+      v
+    end.reverse.first.first
     repository.find_merchant_by_merchant_id(favorite_merchant_id)
   end
 end

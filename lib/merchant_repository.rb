@@ -79,7 +79,9 @@ class MerchantRepository
   end
 
   def most_items(top)
-    merchants.sort_by { |merchant| merchant.total_items_sold; merchant.items_sold }.reverse.take(top)
+    merchants.sort_by do |merchant|
+      merchant.total_items_sold; merchant.items_sold
+    end.reverse.take(top)
   end
 
   def revenue(date)
