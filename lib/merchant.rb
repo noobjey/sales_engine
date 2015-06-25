@@ -26,14 +26,19 @@ class Merchant
 
 
   def revenue
-    @revenue ||= calculate_revenue
+    @revenue ||= calculate_revenue(self.invoices)
     @revenue
   end
 
+  # def revenue(date)
+  #   invoices_for_date = self.invoices.find_all { |invoice| invoice.created_at.eql?(date)}
+  #   calculate_revenue(invoices_for_date)
+  # end
+
   private
 
-  def calculate_revenue
-    total(get_invoice_items(find_successful_transactions(self.invoices)))
+  def calculate_revenue(invoices)
+    total(get_invoice_items(find_successful_transactions(invoices)))
   end
 
   def total(invoice_items)
