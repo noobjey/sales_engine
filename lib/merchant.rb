@@ -31,6 +31,12 @@ class Merchant
     invoices.map { |invoice| invoice.customer unless has_successful_transactions?(invoice) }.compact
   end
 
+  def favorite_customer
+    successful = find_successful_transactions(self.invoices)
+    freq = successful.inject(Hash.new(0)) { |h, invoice| h[invoice.customer_id] += 1; h }
+    successful.find { |invoice| invoice.customer_id ==  freq.max_by { |key, value| value }.first }.customer
+  end
+
   private
 
   def calculate_revenue(invoices)
