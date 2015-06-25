@@ -7,12 +7,15 @@ class Merchant
               :updated_at,
               :repository
 
+  attr_accessor :items_sold
+
   def initialize(line, repository)
     @id         = line[:id].to_i
     @name       = line[:name]
     @created_at = Date.parse(line[:created_at])
     @updated_at = Date.parse(line[:updated_at])
     @repository = repository
+    @items_sold = 0
   end
 
   def items
@@ -33,8 +36,18 @@ class Merchant
 
   def favorite_customer
     successful = find_successful_transactions(self.invoices)
-    freq = successful.inject(Hash.new(0)) { |h, invoice| h[invoice.customer_id] += 1; h }
-    successful.find { |invoice| invoice.customer_id ==  freq.max_by { |key, value| value }.first }.customer
+    freq       = successful.inject(Hash.new(0)) { |h, invoice| h[invoice.customer_id] += 1; h }
+    successful.find { |invoice| invoice.customer_id == freq.max_by { |key, value| value }.first }.customer
+  end
+
+  def successful_invoices(invoices)
+    find_successful_transactions(invoices)
+  end
+
+  def total_items_sold
+    successful_invoices = self.successful_invoices(self.invoices)
+    successful_invoice_items = successful_invoices.map { |invoice| invoice.invoice_items}.flatten
+    self.items_sold = successful_invoice_items.inject(0) { |total, invoice_item| total + (invoice_item.quantity) }
   end
 
   private
