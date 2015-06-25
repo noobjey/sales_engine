@@ -33,7 +33,8 @@ class Item
 
   def best_day
     quantity_per_day = invoice_items.inject(Hash.new(0)) do |h, invoice_item|
-      h[invoice_item.invoice.created_at.strftime("%F")] += invoice_item.quantity;
+      formatted_date = invoice_item.invoice.created_at.strftime("%F")
+      h[formatted_date] += invoice_item.quantity;
       h
     end
 

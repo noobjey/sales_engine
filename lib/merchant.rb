@@ -35,7 +35,8 @@ class Merchant
   end
 
   def customers_with_pending_invoices
-      invoices.map do |invoice| invoice.customer unless has_successful_transactions?(invoice)
+      invoices.map do |invoice|
+        invoice.customer unless has_successful_transactions?(invoice)
     end.compact
   end
 
@@ -55,10 +56,10 @@ class Merchant
 
   def total_items_sold
     successful_invoices = self.successful_invoices(self.invoices)
-    successful_invoice_items = successful_invoices.map do |invoice|
+    successful_inv_items = successful_invoices.map do |invoice|
       invoice.invoice_items
     end.flatten
-    self.items_sold = successful_invoice_items.inject(0) do |total, invoice_item|
+    self.items_sold = successful_inv_items.inject(0) do |total, invoice_item|
       total + (invoice_item.quantity)
     end
   end
