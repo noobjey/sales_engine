@@ -60,7 +60,7 @@ class ItemRepositoryTest < Minitest::Test
 
   def test_it_has_an_inspect
     repo           = ItemRepository.new(fake_sales_engine)
-    repo.items = items
+    repo.items     = items
 
     assert_equal "#<ItemRepository 4 rows>", repo.inspect
   end
