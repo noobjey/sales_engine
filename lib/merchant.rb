@@ -5,9 +5,7 @@ class Merchant
               :name,
               :created_at,
               :updated_at,
-              :repository,
-              :revenue_all,
-              :revenue_for_date
+              :repository
 
   def initialize(line, repository)
     @id         = line[:id].to_i
@@ -26,14 +24,11 @@ class Merchant
   end
 
   def revenue(date = nil)
-    if date.nil?
-      @revenue_all = calculate_revenue(self.invoices)
-      result = @revenue_all
-    else
-      @revenue_for_date = calculate_revenue(find_all_invoices_for_date(date))
-      result = @revenue_for_date
-    end
-    result
+    date.nil? ? calculate_revenue(self.invoices) : calculate_revenue(find_all_invoices_for_date(date, self.invoices))
+  end
+
+  def customers_with_pending_invoices
+    invoices.map { |invoice| invoice.customer unless has_successful_transactions?(invoice) }.compact
   end
 
   private
@@ -58,8 +53,8 @@ class Merchant
     invoice.transactions.any? { |transaction| transaction.result.eql?('success') }
   end
 
-  def find_all_invoices_for_date(date)
-    self.invoices.find_all { |invoice| invoice.created_at.eql?(date) }
+  def find_all_invoices_for_date(date, invoices)
+    invoices.find_all { |invoice| invoice.created_at.eql?(date) }
   end
 end
 
