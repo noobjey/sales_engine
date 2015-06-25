@@ -32,8 +32,12 @@ class Item
   end
 
   def best_day
-    quantity_per_day = invoice_items.inject(Hash.new(0)) { |h, invoice_item| h[invoice_item.invoice.created_at.strftime("%F")] += invoice_item.quantity; h }
-    best_day = quantity_per_day.sort_by { |k, v| v }.reverse.first.first
+    quantity_per_day = invoice_items.inject(Hash.new(0)) do |h, invoice_item|
+      h[invoice_item.invoice.created_at.strftime("%F")] += invoice_item.quantity;
+      h
+    end
+
+    best_day         = quantity_per_day.sort_by { |k, v| v }.reverse.first.first
     Date.parse(best_day)
   end
 
@@ -42,6 +46,20 @@ class Item
   end
 
   def revenue
-    invoice_items.inject(0) { |total, invoice_item| total + (invoice_item.unit_price * invoice_item.quantity) }
+    invoice_items.inject(0) do |total, invoice_item|
+      invoice_item_total = 0
+
+      if has_successful_transactions?(invoice_item.invoice)
+        invoice_item_total = (invoice_item.unit_price * invoice_item.quantity)
+      end
+
+      total + invoice_item_total
+    end
+  end
+
+  private
+
+  def has_successful_transactions?(invoice)
+    invoice.transactions.any? { |transaction| transaction.result.eql?('success') }
   end
 end
