@@ -204,8 +204,9 @@ class SalesEngineTest < Minitest::Test
     fake_repo.verify
   end
 
-  def test_smoke
+  def test_bi
     engine = SalesEngine.new("./data/fixtures")
+    date   = '2012-03-27 14:53:59 UTC'
 
     engine.startup
 
@@ -215,9 +216,12 @@ class SalesEngineTest < Minitest::Test
     mr_most_items = engine.merchant_repository.most_items(1)
     assert_equal 4, mr_most_items.first.id
 
-    mr_revenue_for_date = engine.merchant_repository.revenue('2012-03-27 14:53:59 UTC')
+    mr_revenue_for_date = engine.merchant_repository.revenue(date)
     assert_equal 0, mr_revenue_for_date
 
+    merchant = engine.merchant_repository.merchants.first
+    assert_equal 0, merchant.revenue
+    assert_equal 0, merchant.revenue(date)
   end
 
 end
