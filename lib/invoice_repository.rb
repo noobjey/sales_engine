@@ -94,6 +94,8 @@ class InvoiceRepository
 
   def find_items(id)
     invoice_items = self.find_invoice_items_by_id(id)
-    invoice_items.map { |invoice_item| sales_engine.find_item_by_id(invoice_item.item_id) }
+    invoice_items.map do |invoice_item|
+      sales_engine.find_item_by_id(invoice_item.item_id)
+    end
   end
 end

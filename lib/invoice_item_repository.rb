@@ -40,7 +40,9 @@ class InvoiceItemRepository
   end
 
   def find_by_invoice_id(invoice_id)
-    invoice_items.find { |invoice_item| invoice_item.invoice_id.eql?(invoice_id) }
+    invoice_items.find do |invoice_item|
+      invoice_item.invoice_id.eql?(invoice_id)
+    end
   end
 
   def find_by_quantity(quantity)
@@ -48,15 +50,21 @@ class InvoiceItemRepository
   end
 
   def find_by_unit_price(unit_price)
-    invoice_items.find { |invoice_item| invoice_item.unit_price.eql?(unit_price) }
+    invoice_items.find do |invoice_item|
+      invoice_item.unit_price.eql?(unit_price)
+    end
   end
 
   def find_by_created_at(created_at)
-    invoice_items.find { |invoice_item| invoice_item.created_at.eql?(created_at) }
+    invoice_items.find do |invoice_item|
+      invoice_item.created_at.eql?(created_at)
+    end
   end
 
   def find_by_updated_at(updated_at)
-    invoice_items.find { |invoice_item| invoice_item.updated_at.eql?(updated_at) }
+    invoice_items.find do |invoice_item|
+      invoice_item.updated_at.eql?(updated_at)
+    end
   end
 
 
@@ -69,23 +77,33 @@ class InvoiceItemRepository
   end
 
   def find_all_by_invoice_id(invoice_id)
-    invoice_items.find_all { |invoice_item| invoice_item.invoice_id.eql?(invoice_id) }
+    invoice_items.find_all do |invoice_item|
+      invoice_item.invoice_id.eql?(invoice_id)
+    end
   end
 
   def find_all_by_quantity(quantity)
-    invoice_items.find_all { |invoice_item| invoice_item.quantity.eql?(quantity) }
+    invoice_items.find_all do |invoice_item|
+      invoice_item.quantity.eql?(quantity)
+    end
   end
 
   def find_all_by_unit_price(unit_price)
-    invoice_items.find_all { |invoice_item| invoice_item.unit_price.eql?(unit_price) }
+    invoice_items.find_all do |invoice_item|
+      invoice_item.unit_price.eql?(unit_price)
+    end
   end
 
   def find_all_by_created_at(created_at)
-    invoice_items.find_all { |invoice_item| invoice_item.created_at.eql?(created_at) }
+    invoice_items.find_all do |invoice_item|
+      invoice_item.created_at.eql?(created_at)
+    end
   end
 
   def find_all_by_updated_at(updated_at)
-    invoice_items.find_all { |invoice_item| invoice_item.updated_at.eql?(updated_at) }
+    invoice_items.find_all do |invoice_item|
+      invoice_item.updated_at.eql?(updated_at)
+    end
   end
 
   # Upstream
