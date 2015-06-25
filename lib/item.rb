@@ -44,7 +44,13 @@ class Item
 
   def quantity_sold
     invoice_items.inject(0) do |total, invoice_item|
-      total + invoice_item.quantity
+      invoice_item_quantity = 0
+
+      if has_successful_transactions?(invoice_item.invoice)
+        invoice_item_quantity = invoice_item.quantity
+      end
+
+      total + invoice_item_quantity
     end
   end
 
@@ -63,8 +69,6 @@ class Item
   private
 
   def has_successful_transactions?(invoice)
-    invoice.transactions.any? do |transaction|
-      transaction.result.eql?('success')
-    end
+    invoice.successful_transaction?
   end
 end
