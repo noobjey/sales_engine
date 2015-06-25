@@ -99,12 +99,7 @@ class ItemRepository
   end
 
   def most_items(top)
-    freq          = items.inject(Hash.new(0)) do |h, item|
-      h[item] = item.quantity_sold; h
-    end
-    sorted_result = freq.sort_by { |k, v| v }.reverse.take(top)
-    final         = sorted_result.map { |result| result.first }
-    final
+    pull_out_values(get_top_values(items_with_quantities_sold(self.items), top))
   end
 
   def most_revenue(top)
@@ -113,6 +108,23 @@ class ItemRepository
     end
     sorted_item_revenue = item_revenue.sort_by { |k, v| v }.reverse.take(top)
     sorted_item_revenue.map { |item_revenue| item_revenue.first }
+  end
+
+  private
+
+  def pull_out_values(instance)
+    instance.map { |result| result.first }
+  end
+
+  def items_with_quantities_sold(items)
+    items.inject(Hash.new(0)) do |hash, item|
+      hash[item] = item.quantity_sold
+      hash
+    end
+  end
+
+  def get_top_values(hash_to_sort_by_value, top)
+    hash_to_sort_by_value.sort_by { |k, v| v}.reverse.take(top)
   end
 end
 
