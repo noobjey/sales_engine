@@ -28,12 +28,16 @@ class Merchant
   def revenue(date = nil)
     if date.nil?
       @revenue_all = calculate_revenue(self.invoices)
-      result = @revenue_all
+      result       = @revenue_all
     else
       @revenue_for_date = calculate_revenue(find_all_invoices_for_date(date))
-      result = @revenue_for_date
+      result            = @revenue_for_date
     end
     result
+  end
+
+  def customers_with_pending_invoices
+    invoices.map { |invoice| invoice.customer unless has_successful_transactions?(invoice) }.compact
   end
 
   private
