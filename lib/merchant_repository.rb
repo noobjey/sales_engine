@@ -78,4 +78,7 @@ class MerchantRepository
     merchants.sort_by { |merchant| merchant.revenue }.reverse.take(top_earners)
   end
 
+  def revenue(date)
+    merchants.inject(0) { |total, merchant| total + merchant.revenue(date)}
+  end
 end

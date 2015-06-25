@@ -33,11 +33,11 @@ class ItemTest < Minitest::Test
   end
 
   def test_it_has_a_created_at_date
-    assert_equal data[:created_at], Invoice.new(data, nil).created_at
+    assert_equal Date.parse(data[:created_at]), Invoice.new(data, nil).created_at
   end
 
   def test_it_has_an_updated_at_date
-    assert_equal data[:updated_at], Invoice.new(data, nil).updated_at
+    assert_equal Date.parse(data[:updated_at]), Invoice.new(data, nil).updated_at
   end
 
   def test_it_belongs_to_a_repository
