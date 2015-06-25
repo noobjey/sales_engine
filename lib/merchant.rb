@@ -1,3 +1,5 @@
+require 'date'
+
 class Merchant
   attr_reader :id,
               :name,
@@ -9,8 +11,8 @@ class Merchant
   def initialize(line, repository)
     @id         = line[:id].to_i
     @name       = line[:name]
-    @created_at = line[:created_at]
-    @updated_at = line[:updated_at]
+    @created_at = Date.parse(line[:created_at])
+    @updated_at = Date.parse(line[:updated_at])
     @repository = repository
   end
 
@@ -28,11 +30,11 @@ class Merchant
     @revenue
   end
 
+  private
+
   def calculate_revenue
     total(get_invoice_items(find_successful_transactions(self.invoices)))
   end
-
-  private
 
   def total(invoice_items)
     invoice_items.inject(0) { |total, invoice_item| total + (invoice_item.unit_price * invoice_item.quantity) }
@@ -49,6 +51,7 @@ class Merchant
   def has_successful_transactions?(invoice)
     invoice.transactions.any? { |transaction| transaction.result.eql?('success') }
   end
+
 end
 
 

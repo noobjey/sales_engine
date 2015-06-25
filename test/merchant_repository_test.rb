@@ -23,7 +23,6 @@ class MerchantRepositoryTest < Minitest::Test
     merchant4 = Merchant.new(merchant_input, nil)
 
     @merchants = [merchant1, merchant2, merchant3, merchant4]
-
   end
 
   def test_it_knows_its_parent
@@ -83,16 +82,16 @@ class MerchantRepositoryTest < Minitest::Test
     repo           = MerchantRepository.new(fake_sales_engine)
     repo.merchants = merchants
 
-    assert_equal 4, repo.find_all_by_created_at(merchant_input[:created_at]).size
-    assert_equal merchant_input[:created_at], repo.find_all_by_created_at(merchant_input[:created_at]).first.created_at
+    assert_equal 4, repo.find_all_by_created_at(Date.parse(merchant_input[:created_at])).size
+    assert_equal Date.parse(merchant_input[:created_at]), repo.find_all_by_created_at(Date.parse(merchant_input[:created_at])).first.created_at
   end
 
   def test_find_all_by_updated_at
     repo           = MerchantRepository.new(fake_sales_engine)
     repo.merchants = merchants
 
-    assert_equal 4, repo.find_all_by_updated_at(merchant_input[:updated_at]).size
-    assert_equal merchant_input[:updated_at], repo.find_all_by_updated_at(merchant_input[:updated_at]).first.updated_at
+    assert_equal 4, repo.find_all_by_updated_at(Date.parse(merchant_input[:updated_at])).size
+    assert_equal Date.parse(merchant_input[:updated_at]), repo.find_all_by_updated_at(Date.parse(merchant_input[:updated_at])).first.updated_at
   end
 
   def test_find_by_id
@@ -113,14 +112,14 @@ class MerchantRepositoryTest < Minitest::Test
     repo           = MerchantRepository.new(fake_sales_engine)
     repo.merchants = merchants
 
-    assert_equal merchant_input[:created_at], repo.find_by_created_at(merchant_input[:created_at]).created_at
+    assert_equal Date.parse(merchant_input[:created_at]), repo.find_by_created_at(Date.parse(merchant_input[:created_at])).created_at
   end
 
   def test_find_by_updated_at
     repo           = MerchantRepository.new(fake_sales_engine)
     repo.merchants = merchants
 
-    assert_equal merchant_input[:updated_at], repo.find_by_updated_at(merchant_input[:updated_at]).updated_at
+    assert_equal Date.parse(merchant_input[:updated_at]), repo.find_by_updated_at(Date.parse(merchant_input[:updated_at])).updated_at
   end
 
   def test_random_returns_a_random_instance

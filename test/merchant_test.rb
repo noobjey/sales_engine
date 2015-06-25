@@ -28,13 +28,13 @@ class MerchantTest < Minitest::Test
   def test_it_has_the_expected_initialized_created_at
     merchant = Merchant.new(data, nil)
 
-    assert "2012-03-27 14:53:59 UTC", merchant.created_at
+    assert Date.parse("2012-03-27 14:53:59 UTC"), merchant.created_at
   end
 
   def test_it_has_the_expected_initialized_updated_at
     merchant = Merchant.new(data, nil)
 
-    assert "2012-03-27 14:53:59 UTC", merchant.updated_at
+    assert Date.parse("2012-03-27 14:53:59 UTC"), merchant.updated_at
   end
 
   def test_it_has_items
