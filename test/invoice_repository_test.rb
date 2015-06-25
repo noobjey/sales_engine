@@ -105,14 +105,14 @@ class InvoiceRepositoryTest < Minitest::Test
     repo          = InvoiceRepository.new(fake_sales_engine)
     repo.invoices = invoices
 
-    assert_equal invoice_input[:created_at], repo.find_by_created_at(invoice_input[:created_at]).created_at
+    assert_equal Date.parse(invoice_input[:created_at]), repo.find_by_created_at(Date.parse(invoice_input[:created_at])).created_at
   end
 
   def test_find_by_updated_at
     repo          = InvoiceRepository.new(fake_sales_engine)
     repo.invoices = invoices
 
-    assert_equal invoice_input[:updated_at], repo.find_by_updated_at(invoice_input[:updated_at]).updated_at
+    assert_equal Date.parse(invoice_input[:updated_at]), repo.find_by_updated_at(Date.parse(invoice_input[:updated_at])).updated_at
   end
 
   def test_find_all_by_id
@@ -151,16 +151,16 @@ class InvoiceRepositoryTest < Minitest::Test
     repo          = InvoiceRepository.new(fake_sales_engine)
     repo.invoices = invoices
 
-    assert_equal 4, repo.find_all_by_created_at(invoice_input[:created_at]).size
-    assert_equal invoice_input[:created_at], repo.find_all_by_created_at(invoice_input[:created_at]).first.created_at
+    assert_equal 4, repo.find_all_by_created_at(Date.parse(invoice_input[:created_at])).size
+    assert_equal Date.parse(invoice_input[:created_at]), repo.find_all_by_created_at(Date.parse(invoice_input[:created_at])).first.created_at
   end
 
   def test_find_all_by_updated_at
     repo          = InvoiceRepository.new(fake_sales_engine)
     repo.invoices = invoices
 
-    assert_equal 4, repo.find_all_by_updated_at(invoice_input[:updated_at]).size
-    assert_equal invoice_input[:updated_at], repo.find_all_by_updated_at(invoice_input[:updated_at]).first.updated_at
+    assert_equal 4, repo.find_all_by_updated_at(Date.parse(invoice_input[:updated_at])).size
+    assert_equal Date.parse(invoice_input[:updated_at]), repo.find_all_by_updated_at(Date.parse(invoice_input[:updated_at])).first.updated_at
   end
 
   # Upstream
