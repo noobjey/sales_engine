@@ -58,6 +58,13 @@ class ItemRepositoryTest < Minitest::Test
     assert_equal repo, repo.items.first.repository
   end
 
+  def test_it_has_an_inspect
+    repo           = ItemRepository.new(fake_sales_engine)
+    repo.items = items
+
+    assert_equal "#<ItemRepository 4 rows>", repo.inspect
+  end
+
   def test_find_all_by_id
     repo       = ItemRepository.new(fake_sales_engine)
     repo.items = items
