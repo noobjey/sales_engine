@@ -45,9 +45,9 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_loads_the_merchant_data
-    engine = SalesEngine.new(path)
-
+    engine                     = SalesEngine.new(path)
     engine.merchant_repository = fake_repo
+
     fake_repo.expect(:load_data, nil, ["#{path}/merchants.csv"])
     engine.startup
 
@@ -55,9 +55,9 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_loads_the_items_data
-    engine = SalesEngine.new(path)
-
+    engine                 = SalesEngine.new(path)
     engine.item_repository = fake_repo
+
     fake_repo.expect(:load_data, nil, ["#{path}/items.csv"])
     engine.startup
 
@@ -65,9 +65,9 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_loads_the_invoice_items_data
-    engine = SalesEngine.new(path)
-
+    engine                         = SalesEngine.new(path)
     engine.invoice_item_repository = fake_repo
+
     fake_repo.expect(:load_data, nil, ["#{path}/invoice_items.csv"])
     engine.startup
 
@@ -75,9 +75,9 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_loads_the_invoice_data
-    engine = SalesEngine.new(path)
-
+    engine                    = SalesEngine.new(path)
     engine.invoice_repository = fake_repo
+
     fake_repo.expect(:load_data, nil, ["#{path}/invoices.csv"])
     engine.startup
 
@@ -85,9 +85,9 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_loads_the_customer_data
-    engine = SalesEngine.new(path)
-
+    engine                     = SalesEngine.new(path)
     engine.customer_repository = fake_repo
+
     fake_repo.expect(:load_data, nil, ["#{path}/customers.csv"])
     engine.startup
 
@@ -95,9 +95,9 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_loads_the_transaction_data
-    engine = SalesEngine.new(path)
-
+    engine                        = SalesEngine.new(path)
     engine.transaction_repository = fake_repo
+
     fake_repo.expect(:load_data, nil, ["#{path}/transactions.csv"])
     engine.startup
 
@@ -105,9 +105,9 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_finds_items_by_merchant_id
-    engine = SalesEngine.new("the path")
-
+    engine                 = SalesEngine.new("the path")
     engine.item_repository = fake_repo
+
     fake_repo.expect(:find_all_by_merchant_id, nil, [1])
     engine.find_items_by_merchant_id(1)
 
@@ -115,9 +115,9 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_finds_item_by_id
-    engine = SalesEngine.new("the path")
-
+    engine                 = SalesEngine.new("the path")
     engine.item_repository = fake_repo
+
     fake_repo.expect(:find_by_id, nil, [1])
     engine.find_item_by_id(1)
 
@@ -125,9 +125,9 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_finds_merchant_by_id
-    engine = SalesEngine.new("the path")
-
+    engine                     = SalesEngine.new("the path")
     engine.merchant_repository = fake_repo
+
     fake_repo.expect(:find_by_id, nil, [1])
     engine.find_merchant_by_id(1)
 
@@ -135,29 +135,19 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_finds_invoice_items_by_item_id
-    engine = SalesEngine.new("the path")
-
+    engine                         = SalesEngine.new("the path")
     engine.invoice_item_repository = fake_repo
+
     fake_repo.expect(:find_all_by_item_id, nil, [1])
     engine.find_invoice_items_by_item_id(1)
 
     fake_repo.verify
   end
 
-  def test_it_finds_invoice_by_id
-    engine = SalesEngine.new("the path")
-
-    engine.invoice_repository = fake_repo
-    fake_repo.expect(:find_by_id, nil, [1])
-    engine.find_invoice_by_id(1)
-
-    fake_repo.verify
-  end
-
   def test_it_finds_invoices_by_customer_id
-    engine = SalesEngine.new("the path")
-
+    engine                    = SalesEngine.new("the path")
     engine.invoice_repository = fake_repo
+
     fake_repo.expect(:find_all_by_customer_id, nil, [1])
     engine.find_invoices_by_customer_id(1)
 
@@ -165,9 +155,9 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_finds_invoices_by_merchant_id
-    engine = SalesEngine.new("the path")
-
+    engine                    = SalesEngine.new("the path")
     engine.invoice_repository = fake_repo
+
     fake_repo.expect(:find_all_by_merchant_id, nil, [1])
     engine.find_invoices_by_merchant_id(1)
 
@@ -175,9 +165,9 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_finds_transactions_by_invoice_id
-    engine = SalesEngine.new("the path")
-
+    engine                        = SalesEngine.new("the path")
     engine.transaction_repository = fake_repo
+
     fake_repo.expect(:find_all_by_invoice_id, nil, [1])
     engine.find_transactions_by_invoice_id(1)
 
@@ -185,9 +175,9 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_finds_customers_by_customer_id
-    engine = SalesEngine.new("the path")
-
+    engine                     = SalesEngine.new("the path")
     engine.customer_repository = fake_repo
+
     fake_repo.expect(:find_by_id, nil, [1])
     engine.find_customer_by_id(1)
 
@@ -195,11 +185,22 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_finds_invoice_by_id
-    engine = SalesEngine.new("the path")
-
+    engine                    = SalesEngine.new("the path")
     engine.invoice_repository = fake_repo
+
     fake_repo.expect(:find_by_id, nil, [1])
     engine.find_invoice_by_id(1)
+
+    fake_repo.verify
+  end
+
+  def test_it_can_create_new_invoice_items
+    engine                         = SalesEngine.new("the path")
+    engine.invoice_item_repository = fake_repo
+    input                          = 'input'
+
+    fake_repo.expect(:create, nil, [input])
+    engine.create_invoice_items(input)
 
     fake_repo.verify
   end

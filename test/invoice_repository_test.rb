@@ -5,14 +5,22 @@ class InvoiceRepositoryTest < Minitest::Test
   attr_reader :invoices,
               :fake_sales_engine,
               :fixture_path,
-              :invoice_input
+              :invoice_input,
+              :new_invoice_input
+
+  class FakeSalesEngine
+    def create_invoice_items(inpu)
+
+    end
+  end
 
   def setup
-    @fake_sales_engine = "fake sales engine"
-    @fixture_path      = './data/fixtures/invoices.csv'
+    @fake_sales_engine = FakeSalesEngine.new
+
+    @fixture_path  = './data/fixtures/invoices.csv'
     @invoice_input = {
       id:          1,
-      customer_id: 1,
+      customer_id: 5,
       merchant_id: 26,
       status:      "shipped",
       created_at:  "2012-03-25 09:54:09 UTC",
@@ -25,6 +33,14 @@ class InvoiceRepositoryTest < Minitest::Test
     invoice4 = Invoice.new(invoice_input, nil)
 
     @invoices = [invoice1, invoice2, invoice3, invoice4]
+
+
+    @new_invoice_input = {
+      customer: Minitest::Mock.new.expect(:id, 1, []),
+      merchant: Minitest::Mock.new.expect(:id, 1, []),
+      status:   "shipped",
+      items:    [item1 = Minitest::Mock.new, item2 = Minitest::Mock.new, item3 = Minitest::Mock.new]
+    }
   end
 
   def test_it_knows_its_parent
@@ -195,8 +211,8 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_it_finds_items
-    sales_engine = Minitest::Mock.new
-    repo         = InvoiceRepository.new(sales_engine)
+    sales_engine      = Minitest::Mock.new
+    repo              = InvoiceRepository.new(sales_engine)
     fake_invoice_item = MiniTest::Mock.new
     fake_invoice_item.expect(:item_id, 1, [])
     fake_invoice_items = [fake_invoice_item]
@@ -208,4 +224,81 @@ class InvoiceRepositoryTest < Minitest::Test
     sales_engine.verify
   end
 
+
+  def test_new_invoice_is_added_to_the_repo
+    repo          = InvoiceRepository.new(fake_sales_engine)
+    repo.invoices = [Invoice.new(invoice_input, nil)]
+
+    repo.create(new_invoice_input)
+
+    assert_equal 2, repo.invoices.size
+  end
+
+  def test_new_invoice_has_next_unique_id
+    repo               = InvoiceRepository.new(fake_sales_engine)
+    last_id            = 34
+    expected_id        = last_id + 1
+    invoice_input[:id] = last_id
+    repo.invoices      = [Invoice.new(invoice_input, nil)]
+
+    repo.create(new_invoice_input)
+
+    assert_equal expected_id, repo.invoices.find { |invoice| invoice.id.eql?(expected_id) }.id
+  end
+
+  def test_new_invoice_has_customer
+    repo          = InvoiceRepository.new(fake_sales_engine)
+    repo.invoices = [Invoice.new(invoice_input, nil)]
+
+    repo.create(new_invoice_input)
+
+    assert_equal 5, repo.invoices.first.customer_id
+  end
+
+  def test_new_invoice_has_merchant
+    repo          = InvoiceRepository.new(fake_sales_engine)
+    repo.invoices = [Invoice.new(invoice_input, nil)]
+
+    repo.create(new_invoice_input)
+
+    assert_equal 26, repo.invoices.first.merchant_id
+  end
+
+  def test_new_invoice_has_a_status
+    repo          = InvoiceRepository.new(fake_sales_engine)
+    repo.invoices = [Invoice.new(invoice_input, nil)]
+
+    repo.create(new_invoice_input)
+
+    assert_equal "shipped", repo.invoices.first.status
+  end
+
+  def test_new_invoice_has_created_at
+    repo          = InvoiceRepository.new(fake_sales_engine)
+    repo.invoices = [Invoice.new(invoice_input, nil)]
+
+    repo.create(new_invoice_input)
+
+    assert_equal Date.parse("2012-03-25 09:54:09 UTC"), repo.invoices.first.created_at
+  end
+
+  def test_new_invoice_has_updated_at
+    repo          = InvoiceRepository.new(fake_sales_engine)
+    repo.invoices = [Invoice.new(invoice_input, nil)]
+
+    repo.create(new_invoice_input)
+
+    assert_equal Date.parse("2012-03-25 09:54:09 UTC"), repo.invoices.first.updated_at
+  end
+
+  def test_creates_invoice_items_for_new_invoice
+    sales_engine  = Minitest::Mock.new
+    repo          = InvoiceRepository.new(sales_engine)
+    repo.invoices = [Invoice.new(invoice_input, nil)]
+
+    sales_engine.expect(:create_invoice_items, nil, [new_invoice_input[:items]])
+    repo.create(new_invoice_input)
+
+    sales_engine.verify
+  end
 end

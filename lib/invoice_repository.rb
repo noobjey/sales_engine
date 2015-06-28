@@ -2,7 +2,7 @@ require_relative 'invoice'
 require_relative 'load_file'
 
 class InvoiceRepository
-  attr_reader   :sales_engine
+  attr_reader :sales_engine
   attr_accessor :invoices
 
   include LoadFile
@@ -98,4 +98,27 @@ class InvoiceRepository
       sales_engine.find_item_by_id(invoice_item.item_id)
     end
   end
+
+  def create(line)
+    invoice_input = {
+      id:          next_id,
+      customer_id: line[:customer].id,
+      merchant_id: line[:merchant].id,
+      status:      line[:status],
+      created_at:  Date.today.strftime("%F"),
+      updated_at:  Date.today.strftime("%F")
+    }
+
+    invoices << Invoice.new(invoice_input, nil)
+
+    sales_engine.create_invoice_items(line[:items])
+  end
+
+
+  private
+
+  def next_id
+    invoices.sort_by{ |invoice| invoice.id }.reverse.first.id + 1
+  end
+
 end
