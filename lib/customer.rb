@@ -44,7 +44,25 @@ class Customer
     end
   end
 
+  def total_money_spent
+    calculate_total_money_spent(self.invoices)
+  end
+
   private
+
+  def calculate_total_money_spent(invoices)
+    total(get_invoice_items(find_successful_transactions(invoices)))
+  end
+
+  def total(invoice_items)
+    invoice_items.inject(0) do |total, invoice_item|
+      total + (invoice_item.unit_price * invoice_item.quantity)
+    end
+  end
+
+  def get_invoice_items(transactions)
+    transactions.map { |invoice| invoice.invoice_items }.flatten
+  end
 
   def transactions_per_merchant
     transactions.inject(Hash.new(0)) do |h, transaction|

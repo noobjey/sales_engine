@@ -80,6 +80,10 @@ class CustomerRepository
     customers.sort_by { |customer| customer.total_items_purchased }.last
   end
 
+  def most_revenue
+    customers.sort_by { |customer| customer.total_money_spent }.last
+  end
+
   # Upstream
   def find_invoices_by_customer_id(customer_id)
     sales_engine.find_invoices_by_customer_id(customer_id)
