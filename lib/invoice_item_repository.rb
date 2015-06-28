@@ -9,7 +9,8 @@ class InvoiceItemRepository
   include LoadFile
 
   def initialize(sales_engine)
-    @sales_engine = sales_engine
+    @sales_engine  = sales_engine
+    @invoice_items = []
   end
 
   def load_data(path)
@@ -108,20 +109,26 @@ class InvoiceItemRepository
   end
 
   def create(items, invoice_id)
-    invoice_item_input = {
-      id:         next_id,
-      item_id:    items.first.id,
-      invoice_id: invoice_id,
-      quantity:   1,
-      unit_price: items.first.unit_price,
-      created_at: Date.today,
-      updated_at: Date.today
-    }
 
-    invoice_items << InvoiceItem.new(invoice_item_input, self)
+    unique_items = items.uniq { |item| item.id }
+    unique_items.each do |item|
+
+      invoice_item_input = {
+        id:         next_id,
+        item_id:    item.id,
+        invoice_id: invoice_id,
+        quantity:   quantity_of_items(items, item.id),
+        unit_price: items.first.unit_price,
+        created_at: Date.today,
+        updated_at: Date.today
+      }
+
+      invoice_items << InvoiceItem.new(invoice_item_input, self)
+    end
+
   end
 
-  # Upstream
+# Upstream
   def find_invoice_by_id(id)
     sales_engine.find_invoice_by_id(id)
   end
@@ -133,6 +140,13 @@ class InvoiceItemRepository
   private
 
   def next_id
-    invoice_items.empty? ? 1 : invoice_items.sort_by { |invoice| invoice.id }.reverse.first.id + 1
+    return 1 if invoice_items.empty?
+    invoice_items.sort_by { |invoice| invoice.id }.reverse.first.id + 1
   end
+
+  def quantity_of_items(items, id)
+    # binding.pry
+    items.count { |item| item.id.eql?(id) }
+  end
+
 end
