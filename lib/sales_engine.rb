@@ -78,7 +78,11 @@ class SalesEngine
     invoice_repository.find_by_id(id)
   end
 
-  def create_invoice_items(items, invoice_id )
+  def create_invoice_items(items, invoice_id)
     invoice_item_repository.create(items, invoice_id)
+  end
+
+  def create_transaction_with_invoice_id(information, invoice_id)
+    transaction_repository.create(information, invoice_id)
   end
 end
