@@ -9,7 +9,7 @@ class InvoiceRepositoryTest < Minitest::Test
               :new_invoice_input
 
   class FakeSalesEngine
-    def create_invoice_items(input)
+    def create_invoice_items(input, id)
 
     end
   end
@@ -292,9 +292,9 @@ class InvoiceRepositoryTest < Minitest::Test
   def test_creates_invoice_items_for_new_invoice
     sales_engine  = Minitest::Mock.new
     repo          = InvoiceRepository.new(sales_engine)
-    repo.invoices = [Invoice.new(invoice_input, nil)]
+    repo.invoices = []
 
-    sales_engine.expect(:create_invoice_items, nil, [new_invoice_input[:items]])
+    sales_engine.expect(:create_invoice_items, nil, [new_invoice_input[:items], invoice_input[:id]])
     repo.create(new_invoice_input)
 
     sales_engine.verify

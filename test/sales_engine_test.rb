@@ -198,9 +198,10 @@ class SalesEngineTest < Minitest::Test
     engine                         = SalesEngine.new("the path")
     engine.invoice_item_repository = fake_repo
     input                          = 'input'
+    invoice_id = 33
 
-    fake_repo.expect(:create, nil, [input])
-    engine.create_invoice_items(input)
+    fake_repo.expect(:create, nil, [input, invoice_id])
+    engine.create_invoice_items(input, invoice_id)
 
     fake_repo.verify
   end

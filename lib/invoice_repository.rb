@@ -111,12 +111,13 @@ class InvoiceRepository
 
     invoices << Invoice.new(invoice_input, nil)
 
-    sales_engine.create_invoice_items(line[:items])
+    sales_engine.create_invoice_items(line[:items], invoice_input[:id])
   end
 
   private
 
   def next_id
+    return 1 if invoices.empty?
     invoices.sort_by{ |invoice| invoice.id }.reverse.first.id + 1
   end
 
