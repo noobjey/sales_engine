@@ -223,6 +223,15 @@ class InvoiceRepositoryTest < Minitest::Test
     sales_engine.verify
   end
 
+
+  def test_new_invoice_knows_its_parent
+    repo          = InvoiceRepository.new(fake_sales_engine)
+
+    repo.create(new_invoice_input)
+
+    assert_equal repo, repo.invoices.first.repository
+  end
+
   def test_new_invoice_is_added_to_the_repo
     repo          = InvoiceRepository.new(fake_sales_engine)
     repo.invoices = [Invoice.new(invoice_input, nil)]

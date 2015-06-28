@@ -20,7 +20,7 @@ class InvoiceRepository
   end
 
   def inspect
-    "#<#{self.class} #{transactions.size} rows>"
+    "#<#{self.class} #{invoices.size} rows>"
   end
 
   def all
@@ -109,9 +109,11 @@ class InvoiceRepository
       updated_at:  Date.today.strftime("%F")
     }
 
-    invoices << Invoice.new(invoice_input, nil)
-
     sales_engine.create_invoice_items(line[:items], invoice_input[:id])
+
+    new_invoice = Invoice.new(invoice_input, self)
+    invoices << new_invoice
+    new_invoice
   end
 
   private
