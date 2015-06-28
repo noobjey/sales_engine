@@ -16,9 +16,14 @@ class InvoiceItem
     @invoice_id = line[:invoice_id].to_i
     @quantity   = line[:quantity].to_i
     @unit_price = BigDecimal.new(line[:unit_price])/100
-    @created_at = line[:created_at]
-    @updated_at = line[:updated_at]
+    @created_at = convert_date(line[:created_at])
+    @updated_at = convert_date(line[:updated_at])
     @repository = repository
+  end
+
+  def convert_date(date)
+    return 'No Date' if date.nil?
+    date.is_a?(Date) ? date : Date.parse(date)
   end
 
   def invoice

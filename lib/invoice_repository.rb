@@ -114,7 +114,6 @@ class InvoiceRepository
     sales_engine.create_invoice_items(line[:items])
   end
 
-
   private
 
   def next_id

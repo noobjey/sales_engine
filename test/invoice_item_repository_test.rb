@@ -5,19 +5,23 @@ class InvoiceItemRepositoryTest < Minitest::Test
   attr_reader :invoice_items,
               :fake_sales_engine,
               :fixture_path,
-              :invoice_item_input
+              :invoice_item_input,
+              :new_invoice_item_input,
+              :fake_item
 
   def setup
     @fake_sales_engine  = "fake sales engine"
     @fixture_path       = "./data/fixtures/invoice_items.csv"
+    @fake_item          = Minitest::Mock.new
+
     @invoice_item_input = {
       id:         1,
       item_id:    539,
       invoice_id: 1,
       quantity:   5,
       unit_price: BigDecimal.new(13635),
-      created_at: "2012-03-27 14:54:09 UTC",
-      updated_at: "2013-03-27 14:54:09 UTC"
+      created_at: Date.parse("2012-03-27 14:54:09 UTC"),
+      updated_at: Date.parse("2013-03-27 14:54:09 UTC")
     }
 
     invoice_item1 = InvoiceItem.new(invoice_item_input, nil)
@@ -26,6 +30,10 @@ class InvoiceItemRepositoryTest < Minitest::Test
     invoice_item4 = InvoiceItem.new(invoice_item_input, nil)
 
     @invoice_items = [invoice_item1, invoice_item2, invoice_item3, invoice_item4]
+
+    fake_item.expect(:id, invoice_item_input[:item_id], [])
+    fake_item.expect(:unit_price, invoice_item_input[:unit_price])
+    @new_invoice_item_input = [fake_item, Minitest::Mock.new, Minitest::Mock.new]
   end
 
   def test_it_knows_its_parent
@@ -180,7 +188,6 @@ class InvoiceItemRepositoryTest < Minitest::Test
     assert_equal expected, repo.all
   end
 
-  # Upstream
   def test_it_finds_invoice_by_invoice_id
     sales_engine = Minitest::Mock.new
     repo         = InvoiceItemRepository.new(sales_engine)
@@ -200,4 +207,75 @@ class InvoiceItemRepositoryTest < Minitest::Test
 
     sales_engine.verify
   end
+
+
+  def test_new_invoice_item_has_next_unique_id
+    repo               = InvoiceItemRepository.new(fake_sales_engine)
+    last_id            = 34
+    expected_id        = last_id + 1
+    invoice_item_input[:id] = last_id
+    repo.invoice_items      = [InvoiceItem.new(invoice_item_input, nil)]
+
+    repo.create(new_invoice_item_input, nil)
+
+    assert_equal expected_id, repo.invoice_items.find { |invoice| invoice.id.eql?(expected_id) }.id
+  end
+
+  def test_new_invoice_item_has_item
+    repo          = InvoiceItemRepository.new(fake_sales_engine)
+    repo.invoice_items = []
+
+    new_invoice_item_input.first.expect(:id, 539, [])
+    repo.create(new_invoice_item_input, nil)
+
+    assert_equal 539, repo.invoice_items.first.item_id
+  end
+
+  def test_new_invoice_item_has_invoice
+    repo          = InvoiceItemRepository.new(fake_sales_engine)
+    repo.invoice_items = []
+    invoice_id = 222
+
+    repo.create(new_invoice_item_input, invoice_id)
+
+    assert_equal 222, repo.invoice_items.first.invoice_id
+  end
+
+  def test_new_invoice_item_has_a_unit_price
+    repo          = InvoiceItemRepository.new(fake_sales_engine)
+    repo.invoice_items = []
+
+    repo.create(new_invoice_item_input, nil)
+
+    assert_equal @invoice_item_input[:unit_price]/100, repo.invoice_items.first.unit_price
+  end
+
+  def test_new_invoice_item_has_created_at
+    repo          = InvoiceItemRepository.new(fake_sales_engine)
+    repo.invoice_items = []
+
+    repo.create(new_invoice_item_input, nil)
+
+    assert_equal Date.today, repo.invoice_items.first.created_at
+  end
+
+  def test_new_invoice_item_has_updated_at
+    repo          = InvoiceItemRepository.new(fake_sales_engine)
+    repo.invoice_items = []
+
+    repo.create(new_invoice_item_input, nil)
+
+    assert_equal Date.today, repo.invoice_items.first.updated_at
+  end
+
+  # def test_new_invoice_item_is_added_to_the_repo_when_one_item
+  #   repo          = InvoiceItemRepository.new(fake_sales_engine)
+  #   repo.invoice_items = [InvoiceItem.new(invoice_item_input, nil)]
+  #   single_item = [fake_ite
+  #
+  #   repo.create(single_item, nil)
+  #
+  #   assert_equal 2, repo.invoice_items.size
+  # end
+
 end

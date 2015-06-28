@@ -1,9 +1,10 @@
 require_relative 'load_file'
+require 'date'
 require_relative 'invoice_item'
 
 class InvoiceItemRepository
-  attr_accessor :sales_engine
-  attr_accessor :invoice_items
+  attr_accessor :sales_engine,
+                :invoice_items
 
   include LoadFile
 
@@ -106,6 +107,20 @@ class InvoiceItemRepository
     end
   end
 
+  def create(items, invoice_id)
+    invoice_item_input = {
+      id:         next_id,
+      item_id:    items.first.id,
+      invoice_id: invoice_id,
+      quantity:   1,
+      unit_price: items.first.unit_price,
+      created_at: Date.today,
+      updated_at: Date.today
+    }
+
+    invoice_items << InvoiceItem.new(invoice_item_input, self)
+  end
+
   # Upstream
   def find_invoice_by_id(id)
     sales_engine.find_invoice_by_id(id)
@@ -115,4 +130,9 @@ class InvoiceItemRepository
     sales_engine.find_item_by_id(id)
   end
 
+  private
+
+  def next_id
+    invoice_items.empty? ? 1 : invoice_items.sort_by { |invoice| invoice.id }.reverse.first.id + 1
+  end
 end
