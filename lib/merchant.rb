@@ -26,43 +26,43 @@ class Merchant
     repository.find_invoices_by_id(id)
   end
 
-  def revenue(date = nil)
-    if date.nil?
-      calculate_revenue(self.invoices)
-    else
-      calculate_revenue(find_all_invoices_for_date(date, self.invoices))
-    end
-  end
-
-  def customers_with_pending_invoices
-      invoices.map do |invoice|
-        invoice.customer unless has_successful_transactions?(invoice)
-    end.compact
-  end
-
-  def favorite_customer
-    successful = find_successful_transactions(self.invoices)
-    freq       = successful.inject(Hash.new(0)) do |h, invoice|
-      h[invoice.customer_id] += 1; h
-    end
-    successful.find do |invoice|
-      invoice.customer_id == freq.max_by { |key, value| value }.first
-    end.customer
-  end
-
-  def successful_invoices(invoices)
-    find_successful_transactions(invoices)
-  end
-
-  def total_items_sold
-    successful_invoices = self.successful_invoices(self.invoices)
-    successful_inv_items = successful_invoices.map do |invoice|
-      invoice.invoice_items
-    end.flatten
-    self.items_sold = successful_inv_items.inject(0) do |total, invoice_item|
-      total + (invoice_item.quantity)
-    end
-  end
+  # def revenue(date = nil)
+  #   if date.nil?
+  #     calculate_revenue(self.invoices)
+  #   else
+  #     calculate_revenue(find_all_invoices_for_date(date, self.invoices))
+  #   end
+  # end
+  #
+  # def customers_with_pending_invoices
+  #     invoices.map do |invoice|
+  #       invoice.customer unless has_successful_transactions?(invoice)
+  #   end.compact
+  # end
+  #
+  # def favorite_customer
+  #   successful = find_successful_transactions(self.invoices)
+  #   freq       = successful.inject(Hash.new(0)) do |h, invoice|
+  #     h[invoice.customer_id] += 1; h
+  #   end
+  #   successful.find do |invoice|
+  #     invoice.customer_id == freq.max_by { |key, value| value }.first
+  #   end.customer
+  # end
+  #
+  # def successful_invoices(invoices)
+  #   find_successful_transactions(invoices)
+  # end
+  #
+  # def total_items_sold
+  #   successful_invoices = self.successful_invoices(self.invoices)
+  #   successful_inv_items = successful_invoices.map do |invoice|
+  #     invoice.invoice_items
+  #   end.flatten
+  #   self.items_sold = successful_inv_items.inject(0) do |total, invoice_item|
+  #     total + (invoice_item.quantity)
+  #   end
+  # end
 
   private
 

@@ -73,18 +73,18 @@ class MerchantRepository
   def find_invoices_by_id(id)
     sales_engine.find_invoices_by_merchant_id(id)
   end
-
-  def most_revenue(top_earners)
-    merchants.sort_by { |merchant| merchant.revenue }.reverse.take(top_earners)
-  end
-
-  def most_items(top)
-    merchants.sort_by do |merchant|
-      merchant.total_items_sold; merchant.items_sold
-    end.reverse.take(top)
-  end
-
-  def revenue(date)
-    merchants.inject(0) { |total, merchant| total + merchant.revenue(date) }
-  end
+  #
+  # def most_revenue(top_earners)
+  #   merchants.sort_by { |merchant| merchant.revenue }.reverse.take(top_earners)
+  # end
+  #
+  # def most_items(top)
+  #   merchants.sort_by do |merchant|
+  #     merchant.total_items_sold; merchant.items_sold
+  #   end.reverse.take(top)
+  # end
+  #
+  # def revenue(date)
+  #   merchants.inject(0) { |total, merchant| total + merchant.revenue(date) }
+  # end
 end
