@@ -80,7 +80,8 @@ class MerchantRepository
 
   def most_items(top)
     merchants.sort_by do |merchant|
-      merchant.total_items_sold; merchant.items_sold
+      merchant.total_items_sold
+      merchant.items_sold
     end.reverse.take(top)
   end
 
