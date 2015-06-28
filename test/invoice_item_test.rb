@@ -37,11 +37,16 @@ class InvoiceItemTest < Minitest::Test
   end
 
   def test_it_has_the_expected_created_at
-    assert_equal data[:created_at], InvoiceItem.new(data, nil).created_at
+    assert_equal Date.parse(data[:created_at]), InvoiceItem.new(data, nil).created_at
     end
 
   def test_it_has_the_expected_updated_at
-    assert_equal data[:updated_at], InvoiceItem.new(data, nil).updated_at
+    assert_equal Date.parse(data[:updated_at]), InvoiceItem.new(data, nil).updated_at
+  end
+
+  def test_it_has_the_date_passed_in_when_that_date_is_Date
+    data[:created_at] = Date.today
+    assert_equal Date.today, InvoiceItem.new(data, nil).created_at
   end
 
   def test_has_an_invoice

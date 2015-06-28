@@ -1,10 +1,10 @@
 class Invoice
-  attr_reader   :id,
-                :customer_id,
-                :merchant_id,
-                :status,
-                :created_at,
-                :updated_at
+  attr_reader :id,
+              :customer_id,
+              :merchant_id,
+              :status,
+              :created_at,
+              :updated_at
 
   attr_accessor :repository
 
@@ -39,4 +39,5 @@ class Invoice
       transaction.result.eql?('success')
     end
   end
+
 end
