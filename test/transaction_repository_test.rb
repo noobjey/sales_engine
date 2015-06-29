@@ -125,14 +125,14 @@ class TransactionRepositoryTest < Minitest::Test
     repo              = TransactionRepository.new(fake_sales_engine)
     repo.transactions = transactions
 
-    assert_equal transaction_input[:created_at], repo.find_by_created_at(transaction_input[:created_at]).created_at
+    assert_equal Date.parse(transaction_input[:created_at]), repo.find_by_created_at(Date.parse(transaction_input[:created_at])).created_at
   end
 
   def test_find_by_updated_at
     repo              = TransactionRepository.new(fake_sales_engine)
     repo.transactions = transactions
 
-    assert_equal transaction_input[:updated_at], repo.find_by_updated_at(transaction_input[:updated_at]).updated_at
+    assert_equal Date.parse(transaction_input[:updated_at]), repo.find_by_updated_at(Date.parse(transaction_input[:updated_at])).updated_at
   end
 
   def test_find_all_by_id
@@ -180,16 +180,16 @@ class TransactionRepositoryTest < Minitest::Test
     repo              = TransactionRepository.new(fake_sales_engine)
     repo.transactions = transactions
 
-    assert_equal 4, repo.find_all_by_created_at(transaction_input[:created_at]).size
-    assert_equal transaction_input[:created_at], repo.find_all_by_created_at(transaction_input[:created_at]).first.created_at
+    assert_equal 4, repo.find_all_by_created_at(Date.parse(transaction_input[:created_at])).size
+    assert_equal Date.parse(transaction_input[:created_at]), repo.find_all_by_created_at(Date.parse(transaction_input[:created_at])).first.created_at
   end
 
   def test_find_all_by_updated_at
     repo              = TransactionRepository.new(fake_sales_engine)
     repo.transactions = transactions
 
-    assert_equal 4, repo.find_all_by_updated_at(transaction_input[:updated_at]).size
-    assert_equal transaction_input[:updated_at], repo.find_all_by_updated_at(transaction_input[:updated_at]).first.updated_at
+    assert_equal 4, repo.find_all_by_updated_at(Date.parse(transaction_input[:updated_at])).size
+    assert_equal Date.parse(transaction_input[:updated_at]), repo.find_all_by_updated_at(Date.parse(transaction_input[:updated_at])).first.updated_at
   end
 
   def test_find_invoice_by_id
@@ -265,7 +265,7 @@ class TransactionRepositoryTest < Minitest::Test
 
     transaction = repo.create(new_transaction_input, fake_invoice_id)
 
-    assert_equal Date.today.strftime, transaction.created_at
+    assert_equal Date.parse(Date.today.strftime), transaction.created_at
   end
 
   def test_new_transation_has_updated_at
@@ -274,7 +274,7 @@ class TransactionRepositoryTest < Minitest::Test
 
     transaction = repo.create(new_transaction_input, fake_invoice_id)
 
-    assert_equal Date.today.strftime, transaction.updated_at
+    assert_equal Date.parse(Date.today.strftime), transaction.updated_at
   end
 
   def test_new_transation_added_to_repository
