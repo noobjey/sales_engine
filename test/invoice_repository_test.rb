@@ -301,10 +301,20 @@ class InvoiceRepositoryTest < Minitest::Test
   def test_creates_invoice_items_for_new_invoice
     sales_engine  = Minitest::Mock.new
     repo          = InvoiceRepository.new(sales_engine)
-    repo.invoices = []
 
     sales_engine.expect(:create_invoice_items, nil, [new_invoice_input[:items], invoice_input[:id]])
     repo.create(new_invoice_input)
+
+    sales_engine.verify
+  end
+
+  def test_knows_how_to_create_new_transaction
+    sales_engine  = Minitest::Mock.new
+    repo          = InvoiceRepository.new(sales_engine)
+    information = 'transactin info'
+
+    sales_engine.expect(:create_transaction_with_invoice_id, nil, [information, 1])
+    repo.create_transaction_by_id(information, 1)
 
     sales_engine.verify
   end

@@ -40,4 +40,7 @@ class Invoice
     end
   end
 
+  def charge(information)
+    repository.create_transaction_by_id(information, self.id)
+  end
 end

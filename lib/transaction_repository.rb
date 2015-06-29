@@ -31,6 +31,23 @@ class TransactionRepository
     transactions[Random.new.rand(transactions.size)]
   end
 
+  def create(input, invoice_id)
+
+    information = {
+      id:                          next_id,
+      invoice_id:                  invoice_id,
+      credit_card_number:          input[:credit_card_number],
+      credit_card_expiration_date: input[:credit_card_expiration_date],
+      result:                      input[:result],
+      created_at:                  Date.today.strftime,
+      updated_at:                  Date.today.strftime,
+    }
+
+    new_transaction = Transaction.new(information, self)
+    transactions << new_transaction
+    new_transaction
+  end
+
   def find_by_id(id)
     transactions.find { |transaction| transaction.id.eql?(id) }
   end
@@ -105,4 +122,12 @@ class TransactionRepository
   def find_invoice_by_invoice_id(invoice_id)
     sales_engine.find_invoice_by_id(invoice_id)
   end
+
+  private
+
+  def next_id
+    return 1 if transactions.empty?
+    transactions.sort_by { |transaction| transaction.id }.reverse.first.id + 1
+  end
+
 end

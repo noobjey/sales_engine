@@ -116,11 +116,15 @@ class InvoiceRepository
     new_invoice
   end
 
+  def create_transaction_by_id(information, id)
+    sales_engine.create_transaction_with_invoice_id(information, id)
+  end
+
   private
 
   def next_id
     return 1 if invoices.empty?
-    invoices.sort_by{ |invoice| invoice.id }.reverse.first.id + 1
+    invoices.sort_by { |invoice| invoice.id }.reverse.first.id + 1
   end
 
 end
