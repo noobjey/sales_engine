@@ -38,12 +38,17 @@ class Customer
 
   def total_items_purchased
     successful_invoices = self.successful_invoices(self.invoices)
-    successful_inv_items = successful_invoices.map do |invoice|
-      invoice.invoice_items
-    end.flatten
-    self.items_purchased = successful_inv_items.inject(0) do |total, invoice_item|
+    calculate_total(invoice_items_for(successful_invoices))
+  end
+
+  def invoice_items_for(invoices)
+    invoices.map { |invoice| invoice.invoice_items }.flatten
+  end
+
+  def calculate_total(invoice_items)
+    invoice_items.inject(0) do |total, invoice_item|
       total + (invoice_item.quantity)
-    end
+      end
   end
 
   def total_money_spent
@@ -87,8 +92,8 @@ class Customer
   end
 
   def transactions_per_merchant
-    transactions.inject(Hash.new(0)) do |h, transaction|
-      h[transaction.invoice.merchant_id] += 1; h
+    transactions.inject(Hash.new(0)) do |hash, transaction|
+      hash[transaction.invoice.merchant_id] += 1; hash
     end
   end
 
