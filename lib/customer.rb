@@ -1,3 +1,5 @@
+require 'date'
+
 class Customer
   attr_reader :id,
               :first_name,
@@ -12,8 +14,8 @@ class Customer
     @id         = line[:id].to_i
     @first_name = line[:first_name]
     @last_name  = line[:last_name]
-    @created_at = line[:created_at]
-    @updated_at = line[:updated_at]
+    @created_at = Date.parse(line[:created_at])
+    @updated_at = Date.parse(line[:updated_at])
     @repository = repository
     @items_purchased
   end
@@ -48,7 +50,21 @@ class Customer
     calculate_total_money_spent(self.invoices)
   end
 
+  def days_since_activity
+    days_since_today(date_of_most_recent_activity)
+  end
+
   private
+
+  def days_since_today(date_of_most_recent_activity)
+    Date.today - date_of_most_recent_activity
+  end
+
+  def date_of_most_recent_activity
+    transactions.sort_by do |transaction|
+      transaction.created_at
+    end.last.created_at
+  end
 
   def calculate_total_money_spent(invoices)
     total(get_invoice_items(find_successful_transactions(invoices)))

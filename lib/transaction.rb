@@ -15,8 +15,8 @@ class Transaction
     @credit_card_number          = line[:credit_card_number]
     @credit_card_expiration_date = line[:credit_card_expiration_date]
     @result                      = line[:result]
-    @created_at                  = line[:created_at]
-    @updated_at                  = line[:updated_at]
+    @created_at                  = Date.parse(line[:created_at])
+    @updated_at                  = Date.parse(line[:updated_at])
     @repository                  = repository
   end
 
