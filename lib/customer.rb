@@ -54,6 +54,12 @@ class Customer
     days_since_today(date_of_most_recent_activity)
   end
 
+  def pending_invoices
+    invoices.find_all do |invoice|
+      pending?(invoice)
+    end
+  end
+
   private
 
   def days_since_today(date_of_most_recent_activity)
@@ -96,6 +102,12 @@ class Customer
 
   def has_successful_transactions?(invoice)
     invoice.transactions.any? do |transaction|
+      transaction.result.eql?('success')
+    end
+  end
+
+  def pending?(invoice)
+    invoice.transactions.none? do |transaction|
       transaction.result.eql?('success')
     end
   end
