@@ -91,16 +91,16 @@ class CustomerRepositoryTest < Minitest::Test
     repo           = CustomerRepository.new(fake_sales_engine)
     repo.customers = customers
 
-    assert_equal 4, repo.find_all_by_created_at(customer_input[:created_at]).size
-    assert_equal customer_input[:created_at], repo.find_all_by_created_at(customer_input[:created_at]).first.created_at
+    assert_equal 4, repo.find_all_by_created_at(Date.parse(customer_input[:created_at])).size
+    assert_equal Date.parse(customer_input[:created_at]), repo.find_all_by_created_at(Date.parse(customer_input[:created_at])).first.created_at
   end
 
   def test_find_all_by_updated_at
     repo           = CustomerRepository.new(fake_sales_engine)
     repo.customers = customers
 
-    assert_equal 4, repo.find_all_by_updated_at(customer_input[:updated_at]).size
-    assert_equal customer_input[:updated_at], repo.find_all_by_updated_at(customer_input[:updated_at]).first.updated_at
+    assert_equal 4, repo.find_all_by_updated_at(Date.parse(customer_input[:updated_at])).size
+    assert_equal Date.parse(customer_input[:updated_at]), repo.find_all_by_updated_at(Date.parse(customer_input[:updated_at])).first.updated_at
   end
 
   def test_find_by_id
@@ -128,14 +128,14 @@ class CustomerRepositoryTest < Minitest::Test
     repo           = CustomerRepository.new(fake_sales_engine)
     repo.customers = customers
 
-    assert_equal customer_input[:created_at], repo.find_by_created_at(customer_input[:created_at]).created_at
+    assert_equal Date.parse(customer_input[:created_at]), repo.find_by_created_at(Date.parse(customer_input[:created_at])).created_at
   end
 
   def test_find_by_updated_at
     repo           = CustomerRepository.new(fake_sales_engine)
     repo.customers = customers
 
-    assert_equal customer_input[:updated_at], repo.find_by_updated_at(customer_input[:updated_at]).updated_at
+    assert_equal Date.parse(customer_input[:updated_at]), repo.find_by_updated_at(Date.parse(customer_input[:updated_at])).updated_at
   end
 
   def test_random_returns_a_random_instance
